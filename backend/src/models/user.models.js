@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['Accounts', 'Counsellor', 'Telecaller', 'Admin'],
         required: true
+    },
+    api_token: {
+        type: String,
+        required: true,
     }
 }, { timestamps: true });
 

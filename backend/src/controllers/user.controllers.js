@@ -40,7 +40,8 @@ export const addUsersControllers = asyncHandler(async (req, res, next) => {
             phone,
             role
         });
-        generateToken(res, user._id)
+        let token = generateToken(res, user._id);
+        user.api_token = token;
         await user.save();
         // If all validations pass and user is saved, send a success response
         res.status(201).json({ message: "User created successfully!" });
@@ -103,7 +104,19 @@ export const getUserByTokn = asyncHandler(async (req, res, next) => {
         const { userId } = jwt.verify(api_token, JWT_SECRET);
         // now find the user
         const user = await userModel.findById(userId).select("-password");
-        res.status(200).send(user);
+        res.status(200).send(
+            {
+                "id": user._id,
+                "first_name": user.fName,
+                "last_name": user.lName,
+                "email": user.email,
+                "email_verified_at": user.createdAt,
+                "created_at": user.createdAt,
+                "updated_at": user.createdAt,
+                "api_token": user.api_token
+            }
+        );
+
     } catch (error) {
         res.status(404);
         throw new Error(error);
@@ -130,12 +143,173 @@ export const requsetUserPasswordController = asyncHandler(async (req, res, next)
     }
 })
 
+
+// export const getAllUsersController = asyncHandler(async (req, res, next) => {
+//     try {
+//         console.log(req.query.search);
+//         // Extract page and items_per_page from the query parameters
+//         const { page = 1, items_per_page = 10, search } = req.query;
+//         console.log('getting all user data', search);
+
+//         // Convert page and items_per_page to numbers
+//         const skip = (parseInt(page) - 1) * parseInt(items_per_page);
+//         const limit = parseInt(items_per_page);
+
+//         // Use the skip and limit values in your MongoDB query to implement pagination
+//         let users = await userModel.find({ "fName": search }).skip(skip).limit(limit);
+
+//         // Respond with the array of users and pagination details
+//         const totalUsersCount = 20; // Replace with the actual total count of users
+
+//         const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+
+//         const responseData = {
+//             data: users.map(user => ({
+//                 id: user.id,
+//                 fName: user.fName,
+//                 email: user.email,
+//                 role: user.role,
+//                 phone: user.phone,
+//                 last_login: daysOfWeek[new Date(user.createdAt).getDay()]
+//                 // Add other user properties as needed
+//             })),
+//             payload: {
+//                 pagination: {
+//                     page: parseInt(page),
+//                     first_page_url: `/?page=1`,
+//                     from: skip + 1,
+//                     last_page: Math.ceil(totalUsersCount / limit),
+//                     links: [
+//                         {
+//                             url: null,
+//                             label: "&laquo; Previous",
+//                             active: page > 1,
+//                             page: page > 1 ? page - 1 : null
+//                         },
+//                         {
+//                             url: `/?page=${page}`,
+//                             label: page.toString(),
+//                             active: true,
+//                             page: parseInt(page)
+//                         },
+//                         {
+//                             url: `/?page=${page + 1}`,
+//                             label: (page + 1).toString(),
+//                             active: page < Math.ceil(totalUsersCount / limit),
+//                             page: page < Math.ceil(totalUsersCount / limit) ? page + 1 : null
+//                         },
+//                         {
+//                             url: `/?page=${Math.ceil(totalUsersCount / limit)}`,
+//                             label: "Next &raquo;",
+//                             active: page < Math.ceil(totalUsersCount / limit),
+//                             page: page < Math.ceil(totalUsersCount / limit) ? Math.ceil(totalUsersCount / limit) : null
+//                         }
+//                     ],
+//                     next_page_url: page < Math.ceil(totalUsersCount / limit) ? `/?page=${page + 1}` : null,
+//                     items_per_page: limit,
+//                     prev_page_url: page > 1 ? `/?page=${page - 1}` : null,
+//                     to: skip + users.length,
+//                     total: totalUsersCount
+//                 }
+//             }
+//         };
+
+//         res.status(200).json(responseData);
+//     } catch (error) {
+//         // Handle errors, set status to 500 and throw a new error
+//         res.status(500);
+//         throw new Error(error);
+//     }
+// });
+
 export const getAllUsersController = asyncHandler(async (req, res, next) => {
     try {
-        let users = await userModel.find({});
-        res.status(200).json()
+        // Extract page and items_per_page from the query parameters
+        const { page = 1, items_per_page = 10, search } = req.query;
+
+        // Convert page and items_per_page to numbers
+        const skip = (parseInt(page) - 1) * parseInt(items_per_page);
+        const limit = parseInt(items_per_page);
+
+        // Build the search query
+        const searchQuery = search
+            ? {
+                $or: [
+                    { fName: new RegExp(search, 'i') },
+                    { lName: new RegExp(search, 'i') },
+                    { email: new RegExp(search, 'i') },
+                    // Add more fields as needed
+                ]
+            }
+            : {};
+
+        // Use the skip and limit values in your MongoDB query to implement pagination
+        let users = await userModel.find(searchQuery).skip(skip).limit(limit);
+
+        // Mock total users count (replace with actual count from your database)
+        const totalUsersCount = await userModel.countDocuments(searchQuery);
+
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+        // Respond with the array of users and pagination details
+        const responseData = {
+            data: users.map(user => ({
+                id: user.id,
+                fName: user.fName,
+                email: user.email,
+                role: user.role,
+                phone: user.phone,
+                last_login: daysOfWeek[new Date(user.createdAt).getDay()]
+                // Add other user properties as needed
+            })),
+            payload: {
+                pagination: {
+                    page: parseInt(page),
+                    first_page_url: `/?page=1`,
+                    from: skip + 1,
+                    last_page: Math.ceil(totalUsersCount / limit),
+                    links: [
+                        {
+                            url: null,
+                            label: "&laquo; Previous",
+                            active: page > 1,
+                            page: page > 1 ? page - 1 : null
+                        },
+                        {
+                            url: `/?page=${page}`,
+                            label: page.toString(),
+                            active: true,
+                            page: parseInt(page)
+                        },
+                        {
+                            url: `/?page=${page + 1}`,
+                            label: (page + 1).toString(),
+                            active: page < Math.ceil(totalUsersCount / limit),
+                            page: page < Math.ceil(totalUsersCount / limit) ? page + 1 : null
+                        },
+                        {
+                            url: `/?page=${Math.ceil(totalUsersCount / limit)}`,
+                            label: "Next &raquo;",
+                            active: page < Math.ceil(totalUsersCount / limit),
+                            page: page < Math.ceil(totalUsersCount / limit) ? Math.ceil(totalUsersCount / limit) : null
+                        }
+                    ],
+                    next_page_url: page < Math.ceil(totalUsersCount / limit) ? `/?page=${page + 1}` : null,
+                    items_per_page: limit,
+                    prev_page_url: page > 1 ? `/?page=${page - 1}` : null,
+                    to: skip + users.length,
+                    total: totalUsersCount
+                }
+            }
+        };
+
+        res.status(200).json(responseData);
     } catch (error) {
-        res.status(404);
-        throw new Error(error)
+        // Handle errors, set status to 500 and throw a new error
+        res.status(500);
+        throw new Error(error);
     }
-})
+});
+
+

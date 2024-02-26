@@ -8,6 +8,8 @@ import {KTCard} from '../../../../../_metronic/helpers'
 
 const UsersList = () => {
   const {itemIdForUpdate} = useListView()
+  // console.log(itemIdForUpdate);
+  
   return (
     <>
       <KTCard>

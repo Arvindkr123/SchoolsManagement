@@ -3,7 +3,8 @@ import { addUsersControllers, getUserByTokn, loginUserController, requsetUserPas
 
 let router = Router();
 
-router.route("/").post(addUsersControllers).get(getAllUsersController)
+router.get("/", getAllUsersController)
+router.route("/").post(addUsersControllers)
 router.route("/auth").post(loginUserController)
 router.route("/verifyToken").post(getUserByTokn)
 router.route("/requestPassword").post(requsetUserPasswordController)

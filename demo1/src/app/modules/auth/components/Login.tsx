@@ -40,7 +40,6 @@ export function Login() {
     validationSchema: loginSchema,
     onSubmit: async (values, { setStatus, setSubmitting }) => {
       // console.log(values);
-
       setLoading(true)
       try {
         const { data: auth } = await login(values.email, values.password)

@@ -10,6 +10,8 @@ const QueryRequestContext = createContext<QueryRequestContextProps>(initialQuery
 
 const QueryRequestProvider: FC<WithChildren> = ({children}) => {
   const [state, setState] = useState<QueryState>(initialQueryRequest.state)
+  console.log(state);
+  
 
   const updateState = (updates: Partial<QueryState>) => {
     const updatedState = {...state, ...updates} as QueryState

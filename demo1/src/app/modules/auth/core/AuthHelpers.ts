@@ -55,7 +55,6 @@ export function setupAxios(axios: any) {
       if (auth && auth.api_token) {
         config.headers.Authorization = `Bearer ${auth.api_token}`
       }
-
       return config
     },
     (err: any) => Promise.reject(err)

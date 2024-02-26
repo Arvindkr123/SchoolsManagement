@@ -8,6 +8,8 @@ type Props = {
 }
 
 const UsersList: FC<Props> = ({users = undefined}) => {
+  console.log(users);
+  
   return (
     <>
       {users &&

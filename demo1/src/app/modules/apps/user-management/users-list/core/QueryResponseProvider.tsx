@@ -19,7 +19,8 @@ const QueryResponseProvider: FC<WithChildren> = ({ children }) => {
   const { state } = useQueryRequest()
   const [query, setQuery] = useState<string>(stringifyRequestQuery(state))
   const updatedQuery = useMemo(() => stringifyRequestQuery(state), [state])
-
+  console.log(query);
+  
   useEffect(() => {
     if (query !== updatedQuery) {
       setQuery(updatedQuery)
@@ -31,12 +32,13 @@ const QueryResponseProvider: FC<WithChildren> = ({ children }) => {
     refetch,
     data: response,
   } = useQuery(
-    `http://localhost:8080/users`,
+    `http://localhost:8080/api/users?${query}`,
     () => {
       return getUsers(query)
     },
     { cacheTime: 0, keepPreviousData: true, refetchOnWindowFocus: false }
   )
+  //console.log(response);  
 
   return (
     <QueryResponseContext.Provider value={{ isLoading: isFetching, refetch, response, query }}>
@@ -48,13 +50,13 @@ const QueryResponseProvider: FC<WithChildren> = ({ children }) => {
 const useQueryResponse = () => useContext(QueryResponseContext)
 
 const useQueryResponseData = () => {
-  const { response } = useQueryResponse()
+  const { response } = useQueryResponse();
   if (!response) {
     return []
   }
-
   return response?.data || []
-}
+};
+
 
 const useQueryResponsePagination = () => {
   const defaultPaginationState: PaginationState = {

@@ -1,23 +1,29 @@
-import {useMemo} from 'react'
-import {useTable, ColumnInstance, Row} from 'react-table'
-import {CustomHeaderColumn} from '../table/columns/CustomHeaderColumn'
-import {CustomRow} from '../table/columns/CustomRow'
-import {useQueryResponseData, useQueryResponseLoading} from '../core/QueryResponseProvider'
-import {usersColumns} from './columns/_columns'
-import {User} from '../core/_models'
-import {UsersListLoading} from '../components/loading/UsersListLoading'
-import {UsersListPagination} from '../components/pagination/UsersListPagination'
-import {KTCardBody} from '../../../../../../_metronic/helpers'
+import { useMemo } from 'react'
+import { useTable, ColumnInstance, Row } from 'react-table'
+import { CustomHeaderColumn } from '../table/columns/CustomHeaderColumn'
+import { CustomRow } from '../table/columns/CustomRow'
+import { useQueryResponseData, useQueryResponseLoading } from '../core/QueryResponseProvider'
+import { usersColumns } from './columns/_columns'
+import { User } from '../core/_models'
+import { UsersListLoading } from '../components/loading/UsersListLoading'
+import { UsersListPagination } from '../components/pagination/UsersListPagination'
+import { KTCardBody } from '../../../../../../_metronic/helpers'
 
 const UsersTable = () => {
   const users = useQueryResponseData()
+  // console.log("from table ->>>", users);
   const isLoading = useQueryResponseLoading()
   const data = useMemo(() => users, [users])
   const columns = useMemo(() => usersColumns, [])
-  const {getTableProps, getTableBodyProps, headers, rows, prepareRow} = useTable({
+  // console.log(data);
+
+  const { getTableProps, getTableBodyProps, headers, rows, prepareRow } = useTable({
     columns,
     data,
   })
+
+  // console.log('what in rows ', rows)
+
 
   return (
     <KTCardBody className='py-4'>
@@ -58,4 +64,4 @@ const UsersTable = () => {
   )
 }
 
-export {UsersTable}
+export { UsersTable }

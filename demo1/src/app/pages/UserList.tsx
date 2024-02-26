@@ -44,8 +44,8 @@ function UserList() {
                     </thead>
                     <tbody>
                         {users.map((user) => (
-                            <tr key={user.id}>
-                                <td>{user.name}</td>
+                            <tr key={user._id}>
+                                <td>{user.fName}</td>
                                 <td>{user.role}</td>
                                 <td>{user.email}</td>
                                 <td>{user.phone}</td>
