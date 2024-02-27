@@ -3,34 +3,39 @@ import asyncHandler from "./asyncHandler.js";
 import { userModel } from "../models/user.models.js";
 import { JWT_SECRET } from "../config/config.js";
 
-const authenticate = asyncHandler(async (req, res, next) => {
-  let token;
 
-  // Read JWT from the 'jwt' cookie
-  token = req.cookies.jwt;
-
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, JWT_SECRET);
-      console.log(decoded);
-      req.user = await userModel.findById(decoded.userId).select("-password");
-      next();
-    } catch (error) {
-      res.status(401);
-      throw new Error("Not authorized, token failed.");
-    }
-  } else {
-    res.status(401);
-    throw new Error("Not authorized, no token.");
-  }
-});
-
-const authorizeAdmin = (req, res, next) => {
-  if (req.user && req.user.role==='Admin'){
+//Protected Routes token base
+export const requireSignIn = async (req, res, next) => {
+  try {
+    const decode = jwt.verify(
+      req.headers.authorization.split(" ")[1],
+      JWT_SECRET
+    );
+    req.user = await userModel.findById(decode.userId).select("-password");
     next();
-  } else {
-    res.status(401).send("Not authorized as an admin.");
+  } catch (error) {
+    console.log(error);
   }
 };
 
-export { authenticate, authorizeAdmin };
+//admin acceess
+export const isAdmin = async (req, res, next) => {
+  try {
+    const user = await userModel.findById(req.user._id);
+    if (user.role === "Admin" || user.role === 'SuperAdmin') {
+      next();
+    } else {
+      return res.status(401).send({
+        success: false,
+        message: "UnAuthorized Access",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(401).send({
+      success: false,
+      error,
+      message: "Error in admin middelware",
+    });
+  }
+};

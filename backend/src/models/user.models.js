@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['Accounts', 'Counsellor', 'Telecaller', 'Admin'],
+        enum: ['Accounts', 'Counsellor', 'Telecaller', 'Admin', "SuperAdmin"],
         required: true
     },
     api_token: {
