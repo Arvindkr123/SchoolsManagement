@@ -7,8 +7,8 @@ import { JWT_SECRET } from "../config/config.js";
 
 // add user controller
 export const addUsersControllers = asyncHandler(async (req, res, next) => {
-    console.log(req.headers);
-    console.log(req.body);
+    // console.log(req.headers);
+    // console.log(req.body);
     try {
         const { fName, lName, email, password, phone, role } = req.body;
 
@@ -238,10 +238,10 @@ export const getAllUsersController = asyncHandler(async (req, res, next) => {
 
 
 export const editUserController = asyncHandler(async (req, res, next) => {
-    console.log("====================================================================");
-    // console.log(req.headers.authorization.split(" ")[1]);
+    // console.log("====================================================================");
+    console.log(req.params.id);
+    // console.log(req.headers.authorization.split(" ")[1])
     try {
-        console.log(req.params.id);
     } catch (error) {
         res.status(404);
         throw new Error(error);
@@ -251,7 +251,26 @@ export const editUserController = asyncHandler(async (req, res, next) => {
 export const deleteUserController = asyncHandler(async (req, res, next) => {
     try {
         // console.log(req.params.id);
-        console.log(req.user);
+        // console.log(req.user._id.toString());
+        // console.log(userId === req.user._id);
+        let userId = req.params.id;
+        if (userId === req.user._id.toString()) {
+            res.status(401).json({ message: "You can not delete current user" });
+            return;
+        }
+        let user = await userModel.findById(userId);
+        if (user.role === 'SuperAdmin') {
+            res.status(404).json({
+                message: "You can delete Super Admin"
+            })
+            return;
+        }
+        await userModel.findByIdAndDelete(userId);
+        res.status(200).json({
+            data: {
+                message: "User deleted successfully"
+            }
+        });
     } catch (error) {
         res.status(404);
         throw new Error(error);
@@ -261,7 +280,7 @@ export const deleteUserController = asyncHandler(async (req, res, next) => {
 
 // get user by id controller
 export const getUserByIdController = asyncHandler(async (req, res, next) => {
-
+    // console.log(req.params.id);
     try {
         let user = await userModel.findById(req.params.id);
         if (!user) {

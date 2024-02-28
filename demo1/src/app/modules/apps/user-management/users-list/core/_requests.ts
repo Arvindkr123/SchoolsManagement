@@ -17,7 +17,7 @@ const getUsers = async (query: string): Promise<UsersQueryResponse> => {
 }
 
 const getUserById = async (id: ID): Promise<User | undefined> => {
-  // console.log(id);
+  console.log(id);
 
   return axios
     .get(`http://localhost:8080/api/users/${id}`)

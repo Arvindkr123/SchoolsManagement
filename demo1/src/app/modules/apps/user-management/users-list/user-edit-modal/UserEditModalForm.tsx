@@ -26,7 +26,7 @@ const editUserSchema = Yup.object().shape({
 const UserEditModalForm: FC<Props> = ({ user, isUserLoading }) => {
   const { setItemIdForUpdate } = useListView()
   const { refetch } = useQueryResponse()
-  console.log(user);
+  // console.log(user);
 
 
   const [userForEdit] = useState<User>({
