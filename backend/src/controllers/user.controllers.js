@@ -7,6 +7,8 @@ import { JWT_SECRET } from "../config/config.js";
 
 // add user controller
 export const addUsersControllers = asyncHandler(async (req, res, next) => {
+    console.log(req.headers);
+    console.log(req.body);
     try {
         const { fName, lName, email, password, phone, role } = req.body;
 
@@ -145,6 +147,7 @@ export const requsetUserPasswordController = asyncHandler(async (req, res, next)
 
 
 export const getAllUsersController = asyncHandler(async (req, res, next) => {
+    // console.log(req.headers.authorization.split(" ")[1]);
     try {
         // Extract page and items_per_page from the query parameters
         const { page = 1, items_per_page = 10, search } = req.query;
@@ -233,4 +236,45 @@ export const getAllUsersController = asyncHandler(async (req, res, next) => {
     }
 });
 
+
+export const editUserController = asyncHandler(async (req, res, next) => {
+    console.log("====================================================================");
+    // console.log(req.headers.authorization.split(" ")[1]);
+    try {
+        console.log(req.params.id);
+    } catch (error) {
+        res.status(404);
+        throw new Error(error);
+    }
+})
+
+export const deleteUserController = asyncHandler(async (req, res, next) => {
+    try {
+        // console.log(req.params.id);
+        console.log(req.user);
+    } catch (error) {
+        res.status(404);
+        throw new Error(error);
+    }
+})
+
+
+// get user by id controller
+export const getUserByIdController = asyncHandler(async (req, res, next) => {
+
+    try {
+        let user = await userModel.findById(req.params.id);
+        if (!user) {
+            res.status(401);
+            throw new Error("User not found!");
+            return;
+        }
+        res.status(200).json({
+            data: user
+        })
+    } catch (error) {
+        res.status(400);
+        throw new Error(error.message)
+    }
+})
 

@@ -1,14 +1,15 @@
 import { Router } from "express"
-import { addUsersControllers, getUserByTokn, loginUserController, requsetUserPasswordController, getAllUsersController } from "../controllers/user.controllers.js";
+
+import { addUsersControllers, getUserByTokn, editUserController, loginUserController, requsetUserPasswordController, getAllUsersController, deleteUserController, getUserByIdController } from "../controllers/user.controllers.js";
 import { isAdmin, requireSignIn } from "../middlewares/auth.middleware.js";
 
 let router = Router();
 
-router.get("/", requireSignIn, isAdmin, getAllUsersController)
-router.route("/").post(requireSignIn, isAdmin, addUsersControllers)
-router.route("/auth").post(loginUserController)
-router.route("/verifyToken").post(getUserByTokn)
-router.route("/requestPassword").post(requsetUserPasswordController)
+router.route("/users").get(requireSignIn, isAdmin, getAllUsersController).post(requireSignIn, isAdmin, addUsersControllers)
+router.route("/users/auth").post(loginUserController)
+router.route("/users/verifyToken").post(getUserByTokn)
+router.route("/users/requestPassword").post(requsetUserPasswordController)
+router.route("/users/:id").put(requireSignIn, isAdmin, editUserController).delete(requireSignIn, isAdmin, deleteUserController).get(requireSignIn, isAdmin, getUserByIdController)
 
 
 export default router;

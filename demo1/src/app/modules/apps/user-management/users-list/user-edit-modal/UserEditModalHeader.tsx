@@ -1,13 +1,13 @@
-import {KTIcon} from '../../../../../../_metronic/helpers'
-import {useListView} from '../core/ListViewProvider'
+import { KTIcon } from '../../../../../../_metronic/helpers'
+import { useListView } from '../core/ListViewProvider'
 
 const UserEditModalHeader = () => {
-  const {setItemIdForUpdate} = useListView()
+  const { setItemIdForUpdate, itemIdForUpdate } = useListView()
 
   return (
     <div className='modal-header'>
       {/* begin::Modal title */}
-      <h2 className='fw-bolder'>Add User</h2>
+      <h2 className='fw-bolder'>{itemIdForUpdate ? "Edit" : "Add"} User</h2>
       {/* end::Modal title */}
 
       {/* begin::Close */}
@@ -15,7 +15,7 @@ const UserEditModalHeader = () => {
         className='btn btn-icon btn-sm btn-active-icon-primary'
         data-kt-users-modal-action='close'
         onClick={() => setItemIdForUpdate(undefined)}
-        style={{cursor: 'pointer'}}
+        style={{ cursor: 'pointer' }}
       >
         <KTIcon iconName='cross' className='fs-1' />
       </div>
@@ -24,4 +24,4 @@ const UserEditModalHeader = () => {
   )
 }
 
-export {UserEditModalHeader}
+export { UserEditModalHeader }

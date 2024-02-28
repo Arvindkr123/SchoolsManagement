@@ -18,10 +18,12 @@ import { ID, Response } from '../../../../../../_metronic/helpers'
 export type User = {
   id?: ID,
   avatar?: string,
-  fName?: string
+  fName?: string,
+  lName?: string,
   email?: string
   role?: string
   phone?: string,
+  password?: string
 }
 
 
@@ -33,5 +35,7 @@ export const initialUser: User = {
   role: 'Admin',
   fName: '',
   email: '',
-  phone: ''
+  phone: '',
+  lName: "",
+  password: "asasdf"
 }

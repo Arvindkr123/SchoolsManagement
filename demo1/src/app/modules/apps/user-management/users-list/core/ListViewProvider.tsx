@@ -18,7 +18,7 @@ const ListViewProvider: FC<WithChildren> = ({ children }) => {
   const [itemIdForUpdate, setItemIdForUpdate] = useState<ID>(initialListView.itemIdForUpdate)
   const { isLoading } = useQueryResponse()
   // console.log(selected);
-  // console.log(itemIdForUpdate);
+  console.log(itemIdForUpdate);
   // console.log(selected);
 
 

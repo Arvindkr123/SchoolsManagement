@@ -16,6 +16,9 @@ const UserActionsCell: FC<Props> = ({id}) => {
   const {query} = useQueryResponse()
   const queryClient = useQueryClient()
 
+ // console.log(id);
+  
+
   useEffect(() => {
     MenuComponent.reinitialization()
   }, [])
@@ -31,7 +34,6 @@ const UserActionsCell: FC<Props> = ({id}) => {
       queryClient.invalidateQueries([`${QUERIES.USERS_LIST}-${query}`])
     },
   })
-
   return (
     <>
       <a

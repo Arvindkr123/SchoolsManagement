@@ -16,6 +16,8 @@ const addUserSchema = Yup.object().shape({
 
 const AddUser: React.FC = () => {
     const [data, setData] = useState<addUser>(addUserInitialValues)
+    console.log(data);
+    
 
 
     const postAddUserDataHandler = async (values: any) => {
@@ -24,7 +26,8 @@ const AddUser: React.FC = () => {
                 method: 'POST',
                 body: JSON.stringify(values),
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    
                 }
             });
 
@@ -65,7 +68,7 @@ const AddUser: React.FC = () => {
         initialValues: addUserInitialValues,
         validationSchema: addUserSchema,
         onSubmit: async (values) => {
-            console.log(values);
+           // console.log(values);
             setLoading(true);
             setTimeout(() => {
                 const updatedData = Object.assign(data, values);
@@ -200,6 +203,7 @@ const AddUser: React.FC = () => {
                                     <option value='Counsellor'>Counsellor</option>
                                     <option value='Telecaller'>Telecaller</option>
                                     <option value='Accounts'>Accounts</option>
+                                    <option value='SuperAdmin'>SuperAdmin</option>
                                 </select>
                                 {formik.touched.role && formik.errors.role && (
                                     <div className='fv-plugins-message-container'>

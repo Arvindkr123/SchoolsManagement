@@ -7,6 +7,8 @@ import { getUserById } from '../core/_requests'
 const UserEditModalFormWrapper = () => {
   const { itemIdForUpdate, setItemIdForUpdate } = useListView()
   const enabledQuery: boolean = isNotEmpty(itemIdForUpdate)
+  // console.log(itemIdForUpdate);
+
   const {
     isLoading,
     data: user,
@@ -25,6 +27,8 @@ const UserEditModalFormWrapper = () => {
       },
     }
   )
+
+  //console.log(user);
 
   if (!itemIdForUpdate) {
     return <UserEditModalForm isUserLoading={isLoading} user={{ id: undefined }} />

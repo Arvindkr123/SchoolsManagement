@@ -6,9 +6,10 @@ import { JWT_SECRET } from "../config/config.js";
 
 //Protected Routes token base
 export const requireSignIn = async (req, res, next) => {
+  // console.log(req.headers);
   try {
     const decode = jwt.verify(
-      req.headers.authorization.split(" ")[1],
+      req.headers.authorization?.split(" ")[1],
       JWT_SECRET
     );
     req.user = await userModel.findById(decode.userId).select("-password");

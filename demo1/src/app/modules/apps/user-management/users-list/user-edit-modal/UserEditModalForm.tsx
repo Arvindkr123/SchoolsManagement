@@ -1,13 +1,13 @@
-import {FC, useState} from 'react'
+import { FC, useState } from 'react'
 import * as Yup from 'yup'
-import {useFormik} from 'formik'
-import {isNotEmpty, toAbsoluteUrl} from '../../../../../../_metronic/helpers'
-import {initialUser, User} from '../core/_models'
+import { useFormik } from 'formik'
+import { isNotEmpty, toAbsoluteUrl } from '../../../../../../_metronic/helpers'
+import { initialUser, User } from '../core/_models'
 import clsx from 'clsx'
-import {useListView} from '../core/ListViewProvider'
-import {UsersListLoading} from '../components/loading/UsersListLoading'
-import {createUser, updateUser} from '../core/_requests'
-import {useQueryResponse} from '../core/QueryResponseProvider'
+import { useListView } from '../core/ListViewProvider'
+import { UsersListLoading } from '../components/loading/UsersListLoading'
+import { createUser, updateUser } from '../core/_requests'
+import { useQueryResponse } from '../core/QueryResponseProvider'
 
 type Props = {
   isUserLoading: boolean
@@ -15,28 +15,29 @@ type Props = {
 }
 
 const editUserSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Wrong email format')
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Email is required'),
-  name: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Name is required'),
+  fName: Yup.string().required('First name is required'),
+  lName: Yup.string().required('Last name is required'),
+  email: Yup.string().required('Email is required'),
+  phone: Yup.string().required('Phone Number is required'),
+  role: Yup.string().required('User Type is required'),
+  password: Yup.string().required('Password is required..')
 })
 
-const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
-  const {setItemIdForUpdate} = useListView()
-  const {refetch} = useQueryResponse()
+const UserEditModalForm: FC<Props> = ({ user, isUserLoading }) => {
+  const { setItemIdForUpdate } = useListView()
+  const { refetch } = useQueryResponse()
+  console.log(user);
+
 
   const [userForEdit] = useState<User>({
     ...user,
     avatar: user.avatar || initialUser.avatar,
     role: user.role || initialUser.role,
-    // position: user.position || initialUser.position,
     fName: user.fName || initialUser.fName,
+    lName: user.lName || initialUser.lName,
+    phone: user.phone || initialUser.phone,
     email: user.email || initialUser.email,
+    password: user.password || initialUser.password
   })
 
   const cancel = (withRefresh?: boolean) => {
@@ -52,7 +53,9 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
   const formik = useFormik({
     initialValues: userForEdit,
     validationSchema: editUserSchema,
-    onSubmit: async (values, {setSubmitting}) => {
+    onSubmit: async (values, { setSubmitting }) => {
+      console.log(values);
+
       setSubmitting(true)
       try {
         if (isNotEmpty(values.id)) {
@@ -86,81 +89,18 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
           {/* begin::Input group */}
           <div className='fv-row mb-7'>
             {/* begin::Label */}
-            <label className='d-block fw-bold fs-6 mb-5'>Avatar</label>
-            {/* end::Label */}
-
-            {/* begin::Image input */}
-            <div
-              className='image-input image-input-outline'
-              data-kt-image-input='true'
-              style={{backgroundImage: `url('${blankImg}')`}}
-            >
-              {/* begin::Preview existing avatar */}
-              <div
-                className='image-input-wrapper w-125px h-125px'
-                style={{backgroundImage: `url('${userAvatarImg}')`}}
-              ></div>
-              {/* end::Preview existing avatar */}
-
-              {/* begin::Label */}
-              {/* <label
-              className='btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow'
-              data-kt-image-input-action='change'
-              data-bs-toggle='tooltip'
-              title='Change avatar'
-            >
-              <i className='bi bi-pencil-fill fs-7'></i>
-
-              <input type='file' name='avatar' accept='.png, .jpg, .jpeg' />
-              <input type='hidden' name='avatar_remove' />
-            </label> */}
-              {/* end::Label */}
-
-              {/* begin::Cancel */}
-              {/* <span
-              className='btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow'
-              data-kt-image-input-action='cancel'
-              data-bs-toggle='tooltip'
-              title='Cancel avatar'
-            >
-              <i className='bi bi-x fs-2'></i>
-            </span> */}
-              {/* end::Cancel */}
-
-              {/* begin::Remove */}
-              {/* <span
-              className='btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow'
-              data-kt-image-input-action='remove'
-              data-bs-toggle='tooltip'
-              title='Remove avatar'
-            >
-              <i className='bi bi-x fs-2'></i>
-            </span> */}
-              {/* end::Remove */}
-            </div>
-            {/* end::Image input */}
-
-            {/* begin::Hint */}
-            {/* <div className='form-text'>Allowed file types: png, jpg, jpeg.</div> */}
-            {/* end::Hint */}
-          </div>
-          {/* end::Input group */}
-
-          {/* begin::Input group */}
-          <div className='fv-row mb-7'>
-            {/* begin::Label */}
-            <label className='required fw-bold fs-6 mb-2'>Full Name</label>
+            <label className='required fw-bold fs-6 mb-2'>First Name</label>
             {/* end::Label */}
 
             {/* begin::Input */}
             <input
-              placeholder='Full name'
-              {...formik.getFieldProps('name')}
+              placeholder='First Name'
+              {...formik.getFieldProps('fName')}
               type='text'
-              name='name'
+              name='fName'
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.fName && formik.errors.fName},
+                { 'is-invalid': formik.touched.fName && formik.errors.fName },
                 {
                   'is-valid': formik.touched.fName && !formik.errors.fName,
                 }
@@ -172,6 +112,38 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
               <div className='fv-plugins-message-container'>
                 <div className='fv-help-block'>
                   <span role='alert'>{formik.errors.fName}</span>
+                </div>
+              </div>
+            )}
+            {/* end::Input */}
+          </div>
+          {/* end::Input group */}
+          {/* begin::Input group */}
+          <div className='fv-row mb-7'>
+            {/* begin::Label */}
+            <label className='required fw-bold fs-6 mb-2'>Last Name</label>
+            {/* end::Label */}
+
+            {/* begin::Input */}
+            <input
+              placeholder='First Name'
+              {...formik.getFieldProps('lName')}
+              type='text'
+              name='lName'
+              className={clsx(
+                'form-control form-control-solid mb-3 mb-lg-0',
+                { 'is-invalid': formik.touched.lName && formik.errors.lName },
+                {
+                  'is-valid': formik.touched.lName && !formik.errors.lName,
+                }
+              )}
+              autoComplete='off'
+              disabled={formik.isSubmitting || isUserLoading}
+            />
+            {formik.touched.lName && formik.errors.lName && (
+              <div className='fv-plugins-message-container'>
+                <div className='fv-help-block'>
+                  <span role='alert'>{formik.errors.lName}</span>
                 </div>
               </div>
             )}
@@ -191,7 +163,7 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
               {...formik.getFieldProps('email')}
               className={clsx(
                 'form-control form-control-solid mb-3 mb-lg-0',
-                {'is-invalid': formik.touched.email && formik.errors.email},
+                { 'is-invalid': formik.touched.email && formik.errors.email },
                 {
                   'is-valid': formik.touched.email && !formik.errors.email,
                 }
@@ -209,7 +181,69 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
             )}
           </div>
           {/* end::Input group */}
+          {/* begin::Input group */}
+          <div className='fv-row mb-7'>
+            {/* begin::Label */}
+            <label className='required fw-bold fs-6 mb-2'>Phone</label>
+            {/* end::Label */}
 
+            {/* begin::Input */}
+            <input
+              placeholder='Enter your phone number'
+              {...formik.getFieldProps('phone')}
+              className={clsx(
+                'form-control form-control-solid mb-3 mb-lg-0',
+                { 'is-invalid': formik.touched.phone && formik.errors.phone },
+                {
+                  'is-valid': formik.touched.phone && !formik.errors.phone,
+                }
+              )}
+              type='text'
+              name='phone'
+              autoComplete='off'
+              disabled={formik.isSubmitting || isUserLoading}
+            />
+            {/* end::Input */}
+            {formik.touched.phone && formik.errors.phone && (
+              <div className='fv-plugins-message-container'>
+                <span role='alert'>{formik.errors.phone}</span>
+              </div>
+            )}
+          </div>
+          {/* end::Input group */}
+          {/* begin::Input group */}
+          <div className='fv-row mb-7'>
+            {/* begin::Label */}
+            <label className='required fw-bold fs-6 mb-2'>Password</label>
+            {/* end::Label */}
+
+            {/* begin::Input */}
+            <input
+              placeholder='Enter your Password'
+              {...formik.getFieldProps('password')}
+              className={clsx(
+                'form-control form-control-solid mb-3 mb-lg-0',
+                { 'is-invalid': formik.touched.password && formik.errors.password },
+                {
+                  'is-valid': formik.touched.password && !formik.errors.password,
+                }
+              )}
+              type='password'
+              name='password'
+              autoComplete='off'
+              disabled={formik.isSubmitting || isUserLoading}
+            />
+            {/* end::Input */}
+            {formik.touched.password && formik.errors.password && (
+              <div className='fv-plugins-message-container'>
+                <span role='alert'>{formik.errors.password}</span>
+              </div>
+            )}
+          </div>
+          {/* end::Input group */}
+
+
+          {/* (((((((((((((((((((((((((((((((((((((((--------------User Role Start here-------------))))))))))))))))))))))))))))))))))))))) */}
           {/* begin::Input group */}
           <div className='mb-7'>
             {/* begin::Label */}
@@ -226,19 +260,16 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
                   {...formik.getFieldProps('role')}
                   name='role'
                   type='radio'
-                  value='Administrator'
+                  value='Admin'
                   id='kt_modal_update_role_option_0'
-                  checked={formik.values.role === 'Administrator'}
+                  checked={formik.values.role === 'Admin'}
                   disabled={formik.isSubmitting || isUserLoading}
                 />
 
                 {/* end::Input */}
                 {/* begin::Label */}
                 <label className='form-check-label' htmlFor='kt_modal_update_role_option_0'>
-                  <div className='fw-bolder text-gray-800'>Administrator</div>
-                  <div className='text-gray-600'>
-                    Best for business owners and company administrators
-                  </div>
+                  <div className='fw-bolder text-gray-800'>Admin</div>
                 </label>
                 {/* end::Label */}
               </div>
@@ -256,18 +287,15 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
                   {...formik.getFieldProps('role')}
                   name='role'
                   type='radio'
-                  value='Developer'
+                  value='Accounts'
                   id='kt_modal_update_role_option_1'
-                  checked={formik.values.role === 'Developer'}
+                  checked={formik.values.role === 'Accounts'}
                   disabled={formik.isSubmitting || isUserLoading}
                 />
                 {/* end::Input */}
                 {/* begin::Label */}
                 <label className='form-check-label' htmlFor='kt_modal_update_role_option_1'>
-                  <div className='fw-bolder text-gray-800'>Developer</div>
-                  <div className='text-gray-600'>
-                    Best for developers or people primarily using the API
-                  </div>
+                  <div className='fw-bolder text-gray-800'>Accounts</div>
                 </label>
                 {/* end::Label */}
               </div>
@@ -285,20 +313,16 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
                   {...formik.getFieldProps('role')}
                   name='role'
                   type='radio'
-                  value='Analyst'
+                  value='Counsellor'
                   id='kt_modal_update_role_option_2'
-                  checked={formik.values.role === 'Analyst'}
+                  checked={formik.values.role === 'Counsellor'}
                   disabled={formik.isSubmitting || isUserLoading}
                 />
 
                 {/* end::Input */}
                 {/* begin::Label */}
                 <label className='form-check-label' htmlFor='kt_modal_update_role_option_2'>
-                  <div className='fw-bolder text-gray-800'>Analyst</div>
-                  <div className='text-gray-600'>
-                    Best for people who need full access to analytics data, but don't need to update
-                    business settings
-                  </div>
+                  <div className='fw-bolder text-gray-800'>Counsellor</div>
                 </label>
                 {/* end::Label */}
               </div>
@@ -316,18 +340,15 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
                   {...formik.getFieldProps('role')}
                   name='role'
                   type='radio'
-                  value='Support'
+                  value='Telecaller'
                   id='kt_modal_update_role_option_3'
-                  checked={formik.values.role === 'Support'}
+                  checked={formik.values.role === 'Telecaller'}
                   disabled={formik.isSubmitting || isUserLoading}
                 />
                 {/* end::Input */}
                 {/* begin::Label */}
                 <label className='form-check-label' htmlFor='kt_modal_update_role_option_3'>
-                  <div className='fw-bolder text-gray-800'>Support</div>
-                  <div className='text-gray-600'>
-                    Best for employees who regularly refund payments and respond to disputes
-                  </div>
+                  <div className='fw-bolder text-gray-800'>Telecaller</div>
                 </label>
                 {/* end::Label */}
               </div>
@@ -346,18 +367,14 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
                   name='role'
                   type='radio'
                   id='kt_modal_update_role_option_4'
-                  value='Trial'
-                  checked={formik.values.role === 'Trial'}
+                  value='SuperAdmin'
+                  checked={formik.values.role === 'SuperAdmin'}
                   disabled={formik.isSubmitting || isUserLoading}
                 />
                 {/* end::Input */}
                 {/* begin::Label */}
                 <label className='form-check-label' htmlFor='kt_modal_update_role_option_4'>
-                  <div className='fw-bolder text-gray-800'>Trial</div>
-                  <div className='text-gray-600'>
-                    Best for people who need to preview content data, but don't need to make any
-                    updates
-                  </div>
+                  <div className='fw-bolder text-gray-800'>SuperAdmin</div>
                 </label>
                 {/* end::Label */}
               </div>
@@ -404,4 +421,4 @@ const UserEditModalForm: FC<Props> = ({user, isUserLoading}) => {
   )
 }
 
-export {UserEditModalForm}
+export { UserEditModalForm }

@@ -20,17 +20,8 @@ import './_metronic/assets/sass/plugins.scss'
 import './_metronic/assets/sass/style.react.scss'
 import {AppRoutes} from './app/routing/AppRoutes'
 import {AuthProvider, setupAxios} from './app/modules/auth'
-/**
- * Creates `axios-mock-adapter` instance for provided `axios` instance, add
- * basic Metronic mocks and returns it.
- *
- * @see https://github.com/ctimmerm/axios-mock-adapter
- */
-/**
- * Inject Metronic interceptors for axios.
- *
- * @see https://github.com/axios/axios#interceptors
- */
+
+
 setupAxios(axios)
 Chart.register(...registerables)
 
