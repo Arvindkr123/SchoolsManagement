@@ -10,7 +10,7 @@ router.route("/users").get(requireSignIn, isAdmin, getAllUsersController).post(r
 router.route("/users/auth").post(loginUserController)
 router.route("/users/verifyToken").post(getUserByTokn)
 router.route("/users/requestPassword").post(requsetUserPasswordController)
-router.route("/users/:id").get(requireSignIn, isAdmin, getUserByIdController).delete(requireSignIn, isAdmin, deleteUserController).put(requireSignIn, isAdmin, editUserController)
+router.route("/users/:id").get(requireSignIn, isAdmin, getUserByIdController).delete(requireSignIn, isAdmin, deleteUserController).post(requireSignIn, isAdmin, editUserController)
 
 
 export default router;

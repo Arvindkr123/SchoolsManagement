@@ -316,8 +316,26 @@ export const getUserByIdController = asyncHandler(async (req, res, next) => {
             throw new Error("User not found!");
             return;
         }
+        // "id": 1,
+        // "name": "Emma Smith",
+        // "avatar": "avatars/300-6.jpg",
+        // "email": "smith@kpmg.com",
+        // "position": "Art Director",
+        // "role": "Administrator",
+        // "last_login": "Yesterday",
+        // "two_steps": false,
+        // "joined_day": "10 Nov 2022, 9:23 pm",
+        // "online": false
         res.status(200).json({
-            data: user
+            data: {
+                id: user._id,
+                fName: user.fName,
+                lName: user.lName,
+                email: user.email,
+                role: user.role,
+                password: user.password,
+                phone: user.phone
+            }
         })
     } catch (error) {
         res.status(400);
