@@ -26,8 +26,6 @@ const getUserById = async (id: ID): Promise<User | undefined> => {
 }
 
 const createUser = async (user: User): Promise<User | undefined> => {
-  // console.log(user);
-
   return axios
     .post(`http://localhost:8080/api/users`, user)
     .then((response: AxiosResponse<Response<User>>) => response.data)
@@ -35,7 +33,7 @@ const createUser = async (user: User): Promise<User | undefined> => {
 }
 
 const updateUser = async (user: User1): Promise<User | undefined> => {
-  console.log(user);
+  //console.log(user);
   
   return axios
     .put(`http://localhost:8080/api/users/${user._id}`, user)
