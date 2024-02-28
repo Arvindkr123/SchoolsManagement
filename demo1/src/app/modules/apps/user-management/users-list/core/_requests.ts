@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { ID, Response } from '../../../../../../_metronic/helpers'
-import { User, UsersQueryResponse } from './_models'
+import { User, User1, UsersQueryResponse } from './_models'
 
 
 const API_URL = process.env.REACT_APP_THEME_API_URL
@@ -17,7 +17,7 @@ const getUsers = async (query: string): Promise<UsersQueryResponse> => {
 }
 
 const getUserById = async (id: ID): Promise<User | undefined> => {
-  console.log(id);
+  // console.log(id);
 
   return axios
     .get(`http://localhost:8080/api/users/${id}`)
@@ -26,18 +26,19 @@ const getUserById = async (id: ID): Promise<User | undefined> => {
 }
 
 const createUser = async (user: User): Promise<User | undefined> => {
-  //console.log(user);
-  
+  // console.log(user);
+
   return axios
     .post(`http://localhost:8080/api/users`, user)
     .then((response: AxiosResponse<Response<User>>) => response.data)
     .then((response: Response<User>) => response.data)
 }
 
-const updateUser = async (user: User): Promise<User | undefined> => {
+const updateUser = async (user: User1): Promise<User | undefined> => {
   console.log(user);
+  
   return axios
-    .put(`http://localhost:8080/api/users/${user.id}`, user)
+    .put(`http://localhost:8080/api/users/${user._id}`, user)
     .then((response: AxiosResponse<Response<User>>) => response.data)
     .then((response: Response<User>) => response.data)
 }

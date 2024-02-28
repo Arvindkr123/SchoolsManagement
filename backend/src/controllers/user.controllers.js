@@ -238,15 +238,43 @@ export const getAllUsersController = asyncHandler(async (req, res, next) => {
 
 
 export const editUserController = asyncHandler(async (req, res, next) => {
-    // console.log("====================================================================");
-    console.log(req.params.id);
-    // console.log(req.headers.authorization.split(" ")[1])
+    const { fName, lName, email, role, password, phone } = req.body;
     try {
+        let user = await userModel.findById(req.params.id);
+
+        if (user._id.toString() === req.user._id.toString()) {
+            return res.status(400).json({ error: "Cannot edit the current logged-in user." });
+        }
+
+        if (user.role === 'SuperAdmin') {
+            return res.status(400).json({ error: "Cannot update SuperAdmin user." });
+        }
+
+        // Uncomment the input validation block for better validation
+        /*
+        switch (true) {
+            case !fName:
+                return res.status(400).json({ error: "First Name is required." });
+            // Add similar cases for other required fields
+        }
+        */
+
+        let hashPassword = await bcryptjs.hash(password, 10);
+        user.fName = fName || user.fName;
+        user.lName = lName || user.lName;
+        user.email = email || user.email;
+        user.role = role || user.role;
+        user.phone = phone || user.phone;
+        user.password = hashPassword || user.password;
+
+        let updateUser = await user.save();
+        res.status(200).json({ success: "User updated successfully." });
     } catch (error) {
-        res.status(404);
-        throw new Error(error);
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-})
+});
+
 
 export const deleteUserController = asyncHandler(async (req, res, next) => {
     try {

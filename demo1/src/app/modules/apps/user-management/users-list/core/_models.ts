@@ -25,6 +25,16 @@ export type User = {
   phone?: string,
   password?: string
 }
+export type User1 = {
+  _id?: ID,
+  avatar?: string,
+  fName?: string,
+  lName?: string,
+  email?: string
+  role?: string
+  phone?: string,
+  password?: string
+}
 
 
 

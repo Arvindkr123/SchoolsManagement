@@ -55,10 +55,9 @@ const UserEditModalForm: FC<Props> = ({ user, isUserLoading }) => {
     validationSchema: editUserSchema,
     onSubmit: async (values, { setSubmitting }) => {
       console.log(values);
-
       setSubmitting(true)
       try {
-        if (isNotEmpty(values.id)) {
+        if (isNotEmpty(values)) {
           await updateUser(values)
         } else {
           await createUser(values)
