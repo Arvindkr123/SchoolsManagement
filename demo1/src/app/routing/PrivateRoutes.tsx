@@ -11,6 +11,7 @@ import MyPage from '../pages/MyPage'
 import AddStudent from '../pages/AddStudent'
 import AddUser from '../pages/AddUser'
 import UserList from '../pages/UserList'
+import AddMissionForm from '../pages/admission'
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -25,19 +26,16 @@ const PrivateRoutes = () => {
       <Route element={<MasterLayout />}>
         {/* Redirect to Dashboard after success login/registartion */}
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
-        <Route path='/my-page' element={
-          <>
-            <MyPage />
-          </>
-        } />
-        <Route path='/add-student' element={
+        <Route path='/my-page' element={<MyPage />} />
+        <Route path='/addmission-form' element={<AddMissionForm />} />
+        {/* <Route path='/add-student' element={
           <>
             <AddStudent />
           </>
-        } />
+        } /> */}
 
-        <Route path='/add-user' element={<AddUser />} />
-        <Route path='/user-list' element={<UserList />} />
+        {/* <Route path='/add-user' element={<AddUser />} />
+        <Route path='/user-list' element={<UserList />} /> */}
         {/* Pages */}
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />

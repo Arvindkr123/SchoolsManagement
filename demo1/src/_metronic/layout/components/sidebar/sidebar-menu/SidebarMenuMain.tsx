@@ -109,8 +109,10 @@ const SidebarMenuMain = () => {
       >
         <SidebarMenuItem to='/my-page' title='My Page' hasBullet={true} />
         <SidebarMenuItem to='/add-student' title='Add Student' hasBullet={true} />
-        <SidebarMenuItem to='/add-user' title='Add User' hasBullet={true} />
-        <SidebarMenuItem to='/user-list' title='User List' hasBullet={true} />
+        <SidebarMenuItem to='/addmission-form' title='Admission Form' hasBullet={true} />
+
+        {/* <SidebarMenuItem to='/add-user' title='Add User' hasBullet={true} /> */}
+        {/* <SidebarMenuItem to='/user-list' title='User List' hasBullet={true} /> */}
       </SidebarMenuItemWithSub>
       {/* ******************  Manage Student added end ------- **************************** */}
 
