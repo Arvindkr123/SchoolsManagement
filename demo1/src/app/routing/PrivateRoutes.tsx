@@ -11,7 +11,7 @@ import MyPage from '../pages/MyPage'
 import AddStudent from '../pages/AddStudent'
 import AddUser from '../pages/AddUser'
 import UserList from '../pages/UserList'
-import AddMissionForm from '../pages/admission'
+import AddMissionForm from '../pages/AddMissionForm'
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
