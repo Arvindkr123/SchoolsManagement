@@ -107,8 +107,8 @@ const SidebarMenuMain = () => {
         fontIcon='bi-chat-left'
         icon='message-text-2'
       >
-        <SidebarMenuItem to='/my-page' title='My Page' hasBullet={true} />
-        <SidebarMenuItem to='/add-student' title='Add Student' hasBullet={true} />
+        <SidebarMenuItem to='/my-page' title='Users' hasBullet={true} />
+        <SidebarMenuItem to='/students' title='Students' hasBullet={true} />
         <SidebarMenuItem to='/addmission-form' title='Admission Form' hasBullet={true} />
 
         {/* <SidebarMenuItem to='/add-user' title='Add User' hasBullet={true} /> */}

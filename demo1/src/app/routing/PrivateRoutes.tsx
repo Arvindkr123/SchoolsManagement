@@ -12,6 +12,7 @@ import AddUser from '../pages/AddUser'
 import UserList from '../pages/UserList'
 
 
+
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
   const WizardsPage = lazy(() => import('../modules/wizards/WizardsPage'))
@@ -21,6 +22,7 @@ const PrivateRoutes = () => {
   const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
   const AddMissionForm = lazy(() => import('../pages/AddMissionForm'))
   const MyPage = lazy(() => import('../pages/MyPage'))
+  const StudentsList = lazy(() => import('../pages/StudentsList'))
 
   return (
     <Routes>
@@ -37,11 +39,11 @@ const PrivateRoutes = () => {
             <AddMissionForm />
           </SuspensedView>
         } />
-        {/* <Route path='/add-student' element={
-          <>
-            <AddStudent />
-          </>
-        } /> */}
+        <Route path='/students' element={
+          <SuspensedView>
+            <StudentsList className='' />
+          </SuspensedView>
+        } />
 
         {/* <Route path='/add-user' element={<AddUser />} />
         <Route path='/user-list' element={<UserList />} /> */}

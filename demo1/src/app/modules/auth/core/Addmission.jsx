@@ -1,6 +1,6 @@
 import {createContext, useContext, useState} from 'react'
 import axios from 'axios'
-import {useQueryClient, useMutation} from 'react-query'
+import {useQueryClient, useMutation, useQuery} from 'react-query'
 import {useAuth} from './Auth'
 
 const AdmissionContext = createContext()
@@ -15,7 +15,20 @@ export const AdmissionContextProvider = ({children}) => {
     },
   }
 
-  const {mutate, isLoading, isSuccess, isError, error, data, } = useMutation({
+  const result = useQuery({
+    queryKey: ['AddStudent'],
+    queryFn: async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/api/students', config)
+        return response.data
+      } catch (error) {
+        throw new Error('Error fetching student data: ' + error.message)
+      }
+    },
+  })
+
+  console.log(result)
+  const {mutate, isLoading, isSuccess, isError, error} = useMutation({
     mutationFn: async (newAdmission) => {
       return axios
         .post('http://localhost:8080/api/addmission_form', newAdmission, config)
@@ -26,7 +39,7 @@ export const AdmissionContextProvider = ({children}) => {
       console.error('Error creating admission form:', err)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['admissionForms']})
+      queryClient.invalidateQueries({queryKey: ['AddStudent']})
       alert('Addmission done successfully!')
     },
   })
