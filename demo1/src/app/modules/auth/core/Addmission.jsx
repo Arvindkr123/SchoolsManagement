@@ -15,7 +15,7 @@ export const AdmissionContextProvider = ({children}) => {
     },
   }
 
-  const {mutate, isLoading, isSuccess, isError, error, data} = useMutation({
+  const {mutate, isLoading, isSuccess, isError, error, data, } = useMutation({
     mutationFn: async (newAdmission) => {
       return axios
         .post('http://localhost:8080/api/addmission_form', newAdmission, config)
@@ -31,23 +31,10 @@ export const AdmissionContextProvider = ({children}) => {
     },
   })
 
-  console.log(error, data)
-
-  const createAdmissionForm = async (formData) => {
-    try {
-      await axios.post('http://localhost:8080/api/addmission_form', formData, config)
-      // Invalidate and refetch the admission forms query
-      queryClient.invalidateQueries('admissionForms')
-    } catch (error) {
-      console.error('Error creating admission form:', error)
-    }
-  }
-
   return (
     <AdmissionContext.Provider
       value={{
         admissionFormData,
-        createAdmissionForm,
         setAdmissionFormData,
         mutate,
         isLoading,

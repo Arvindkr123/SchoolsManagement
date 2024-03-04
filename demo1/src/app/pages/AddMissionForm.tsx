@@ -733,9 +733,9 @@ const AddMissionForm: React.FC = () => {
                     </div>
 
                     <div className='card-footer d-flex justify-content-end py-6 px-9'>
-                        <button type='submit' className='btn btn-primary' disabled={loading}>
-                            {!loading && 'Submit'}
-                            {loading && (
+                        <button type='submit' className='btn btn-primary' disabled={context.isLoading}>
+                            {!context.isLoading && 'Submit'}
+                            {context.loading && (
                                 <span className='indicator-progress' style={{ display: 'block' }}>
                                     Please wait...{' '}
                                     <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
