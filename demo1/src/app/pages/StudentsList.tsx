@@ -1,12 +1,15 @@
 import React from 'react'
 import { KTIcon, toAbsoluteUrl } from '../../_metronic/helpers'
 import { Link } from 'react-router-dom'
+import { useAdmissionContext } from '../modules/auth/core/Addmission'
 
 type Props = {
   className: string
 }
 
 const StudentsList: React.FC<Props> = ({ className }) => {
+  const ctx = useAdmissionContext();
+  console.log(ctx.studentsLists.data.users)
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
@@ -22,15 +25,15 @@ const StudentsList: React.FC<Props> = ({ className }) => {
           data-bs-trigger='hover'
           title='Click to add a user'
         >
-          <a
-            href='#'
+          <Link
+            to='#'
             className='btn btn-sm btn-light-primary'
           // data-bs-toggle='modal'
           // data-bs-target='#kt_modal_invite_friends'
           >
             <KTIcon iconName='plus' className='fs-3' />
             Add New Student
-          </a>
+          </Link>
         </div>
       </div>
       {/* end::Header */}
@@ -63,126 +66,71 @@ const StudentsList: React.FC<Props> = ({ className }) => {
             {/* end::Table head */}
             {/* begin::Table body */}
             <tbody>
-              <tr>
-                <td>
-                  <div className='form-check form-check-sm form-check-custom form-check-solid'>
-                    <input className='form-check-input widget-9-check' type='checkbox' value='1' />
-                  </div>
-                </td>
-                <td>
-                  <div className='d-flex align-items-center'>
-                    <div className='symbol symbol-45px me-5'>
-                      <img src={toAbsoluteUrl('/media/avatars/300-14.jpg')} alt='' />
-                    </div>
-                    <div className='d-flex justify-content-start flex-column'>
-                      <Link to='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                        Ana Simmons
+              {
+                ctx.studentsLists.data.users.map((student: any) => (
+                  <tr key={student._id}>
+                    <td>
+                      <div className='form-check form-check-sm form-check-custom form-check-solid'>
+                        <input className='form-check-input widget-9-check' type='checkbox' value='1' />
+                      </div>
+                    </td>
+                    <td>
+                      <div className='d-flex align-items-center'>
+                        <div className='symbol symbol-45px me-5'>
+                          <img src={toAbsoluteUrl('/media/avatars/300-14.jpg')} alt='' />
+                        </div>
+                        <div className='d-flex justify-content-start flex-column'>
+                          <Link to='#' className='text-dark fw-bold text-hover-primary fs-6'>
+                            Ana Simmons
+                          </Link>
+                          <span className='text-muted fw-semibold text-muted d-block fs-7'>
+                            HTML, JS, ReactJS
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <Link to='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
+                        Intertico
                       </Link>
                       <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                        HTML, JS, ReactJS
+                        Web, UI/UX Design
                       </span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <Link to='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                    Intertico
-                  </Link>
-                  <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                    Web, UI/UX Design
-                  </span>
-                </td>
-                <td className='text-end'>
-                  <div className='d-flex flex-column w-100 me-2'>
-                    <div className='d-flex flex-stack mb-2'>
-                      <span className='text-muted me-2 fs-7 fw-semibold'>50%</span>
-                    </div>
-                    <div className='progress h-6px w-100'>
-                      <div
-                        className='progress-bar bg-primary'
-                        role='progressbar'
-                        style={{ width: '50%' }}
-                      ></div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className='d-flex justify-content-end flex-shrink-0'>
-                    <Link
-                      to='#'
-                      className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
-                    >
-                      <KTIcon iconName='pencil' className='fs-3' />
-                    </Link>
-                    <Link
-                      to='#'
-                      className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'
-                    >
-                      <KTIcon iconName='trash' className='fs-3' />
-                    </Link>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div className='form-check form-check-sm form-check-custom form-check-solid'>
-                    <input className='form-check-input widget-9-check' type='checkbox' value='1' />
-                  </div>
-                </td>
-                <td>
-                  <div className='d-flex align-items-center'>
-                    <div className='symbol symbol-45px me-5'>
-                      <img src={toAbsoluteUrl('/media/avatars/300-14.jpg')} alt='' />
-                    </div>
-                    <div className='d-flex justify-content-start flex-column'>
-                      <Link to='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                        Ana Simmons
-                      </Link>
-                      <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                        HTML, JS, ReactJS
-                      </span>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <Link to='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                    Intertico
-                  </Link>
-                  <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                    Web, UI/UX Design
-                  </span>
-                </td>
-                <td className='text-end'>
-                  <div className='d-flex flex-column w-100 me-2'>
-                    <div className='d-flex flex-stack mb-2'>
-                      <span className='text-muted me-2 fs-7 fw-semibold'>50%</span>
-                    </div>
-                    <div className='progress h-6px w-100'>
-                      <div
-                        className='progress-bar bg-primary'
-                        role='progressbar'
-                        style={{ width: '50%' }}
-                      ></div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div className='d-flex justify-content-end flex-shrink-0'>
-                    <Link
-                      to='#'
-                      className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
-                    >
-                      <KTIcon iconName='pencil' className='fs-3' />
-                    </Link>
-                    <Link
-                      to='#'
-                      className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'
-                    >
-                      <KTIcon iconName='trash' className='fs-3' />
-                    </Link>
-                  </div>
-                </td>
-              </tr>
+                    </td>
+                    <td className='text-end'>
+                      <div className='d-flex flex-column w-100 me-2'>
+                        <div className='d-flex flex-stack mb-2'>
+                          <span className='text-muted me-2 fs-7 fw-semibold'>50%</span>
+                        </div>
+                        <div className='progress h-6px w-100'>
+                          <div
+                            className='progress-bar bg-primary'
+                            role='progressbar'
+                            style={{ width: '50%' }}
+                          ></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className='d-flex justify-content-end flex-shrink-0'>
+                        <Link
+                          to='#'
+                          className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
+                        >
+                          <KTIcon iconName='pencil' className='fs-3' />
+                        </Link>
+                        <Link
+                          to='#'
+                          className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'
+                        >
+                          <KTIcon iconName='trash' className='fs-3' />
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+
+              }
             </tbody>
             {/* end::Table body */}
           </table>

@@ -15,7 +15,7 @@ export const AdmissionContextProvider = ({children}) => {
     },
   }
 
-  const result = useQuery({
+  const studentsLists = useQuery({
     queryKey: ['AddStudent'],
     queryFn: async () => {
       try {
@@ -27,7 +27,7 @@ export const AdmissionContextProvider = ({children}) => {
     },
   })
 
-  console.log(result)
+  //console.log(studentsLists)
   const {mutate, isLoading, isSuccess, isError, error} = useMutation({
     mutationFn: async (newAdmission) => {
       return axios
@@ -53,6 +53,7 @@ export const AdmissionContextProvider = ({children}) => {
         isLoading,
         isSuccess,
         isError,
+        studentsLists,
       }}
     >
       {children}
