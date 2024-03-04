@@ -67,8 +67,8 @@ const ProfileDetails: React.FC = () => {
         setData(updatedData)
         setLoading(false)
       }, 1000)
-      // console.log(values);
-      mutation.mutate(values)
+      //console.log(values);
+      // mutation.mutate(values)
     },
   })
 
@@ -83,7 +83,7 @@ const ProfileDetails: React.FC = () => {
         aria-controls='kt_account_profile_details'
       >
         <div className='card-title m-0'>
-          <h3 className='fw-bolder m-0'>AddMission Form</h3>
+          <h3 className='fw-bolder m-0'>Profile Details</h3>
         </div>
       </div>
 

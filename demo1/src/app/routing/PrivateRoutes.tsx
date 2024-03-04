@@ -7,11 +7,10 @@ import { MenuTestPage } from '../pages/MenuTestPage'
 import { getCSSVariableValue } from '../../_metronic/assets/ts/_utils'
 import { WithChildren } from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
-import MyPage from '../pages/MyPage'
 import AddStudent from '../pages/AddStudent'
 import AddUser from '../pages/AddUser'
 import UserList from '../pages/UserList'
-import AddMissionForm from '../pages/AddMissionForm'
+
 
 const PrivateRoutes = () => {
   const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -20,14 +19,24 @@ const PrivateRoutes = () => {
   const WidgetsPage = lazy(() => import('../modules/widgets/WidgetsPage'))
   const ChatPage = lazy(() => import('../modules/apps/chat/ChatPage'))
   const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
+  const AddMissionForm = lazy(() => import('../pages/AddMissionForm'))
+  const MyPage = lazy(() => import('../pages/MyPage'))
 
   return (
     <Routes>
       <Route element={<MasterLayout />}>
         {/* Redirect to Dashboard after success login/registartion */}
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
-        <Route path='/my-page' element={<MyPage />} />
-        <Route path='/addmission-form' element={<AddMissionForm />} />
+        <Route path='/my-page' element={
+          <SuspensedView>
+            <MyPage />
+          </SuspensedView>
+        } />
+        <Route path='/addmission-form' element={
+          <SuspensedView>
+            <AddMissionForm />
+          </SuspensedView>
+        } />
         {/* <Route path='/add-student' element={
           <>
             <AddStudent />

@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { useMutation } from 'react-query'
 import { AddMissionFormInterface, addMissionFormInitialValues as initialValues } from '../modules/accounts/components/settings/SettingsModel'
-import { toAbsoluteUrl } from '../../_metronic/helpers'
+import { useAdmissionContext } from '../modules/auth/core/Addmission'
 
 const addmissionFormSchema = Yup.object().shape({
     name: Yup.string().required('Name is required!'),
@@ -39,59 +38,16 @@ const addmissionFormSchema = Yup.object().shape({
 
 
 const AddMissionForm: React.FC = () => {
-    const [data, setData] = useState<AddMissionFormInterface>(initialValues)
-    const updateData = (fieldsToUpdate: Partial<AddMissionFormInterface>): void => {
-        const updatedData = Object.assign(data, fieldsToUpdate)
-        setData(updatedData)
-    }
-
-    // console.log(updateData);
-    
-
-    // const postProfileDetails = async (values: any) => {
-    //     const response = await fetch('http://localhost:8080/store', {
-    //         method: 'POST',
-    //         body: JSON.stringify(values),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     })
-    //     if (!response.ok) {
-    //         throw new Error('Error posting data');
-    //     }
-    //     return response.json();
-    // }
-    // // Use the useMutation hook
-    // const mutation = useMutation(postProfileDetails, {
-    //     onSuccess: () => {
-    //         // Optional: Handle success, e.g., redirect or show a success message
-    //         console.log('Data posted successfully');
-    //     },
-    //     onError: (error) => {
-    //         // Optional: Handle error, e.g., show an error message
-    //         console.error('Error posting data:', error);
-    //     },
-    // });
-
-
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const context = useAdmissionContext()
     const formik = useFormik<AddMissionFormInterface>({
         initialValues,
         validationSchema: addmissionFormSchema,
         onSubmit: async (values) => {
             setLoading(true)
-            console.log(values);
-            
-            setTimeout(() => {
-                // values.communications.email = data.communications.email
-                // values.communications.phone = data.communications.phone
-                // values.allowMarketing = data.allowMarketing
-
-                const updatedData = Object.assign(data, values)
-                setData(updatedData)
-                setLoading(false)
-            }, 1000)
+            context.mutate(values)
             // console.log(values);
+            setLoading(false)
             // mutation.mutate(values)
         },
     })
@@ -309,20 +265,6 @@ const AddMissionForm: React.FC = () => {
 
                         {/* -----------------QUALIFICATION START HERE ------------------ */}
 
-                        <div
-                            className='card-header border-0 cursor-pointer'
-                            role='button'
-                            data-bs-toggle='collapse'
-                            data-bs-target='#kt_account_profile_details'
-                            aria-expanded='true'
-                            aria-controls='kt_account_profile_details'
-                        >
-                            <div className='card-title m-0'>
-                                <h3 className='fw-bolder m-0'>Qualification</h3>
-                            </div>
-                        </div>
-
-
                         <div className='row mb-6'>
                             <label className='col-lg-4 col-form-label required fw-bold fs-6'>Education Qualification
                             </label>
@@ -401,18 +343,6 @@ const AddMissionForm: React.FC = () => {
 
                         {/* ---------------------------QUALIFICATION END HERE ----------------------- */}
                         {/* ---------------------------COURSE START HERE ----------------------- */}
-                        <div
-                            className='card-header border-0 cursor-pointer'
-                            role='button'
-                            data-bs-toggle='collapse'
-                            data-bs-target='#kt_account_profile_details'
-                            aria-expanded='true'
-                            aria-controls='kt_account_profile_details'
-                        >
-                            <div className='card-title m-0'>
-                                <h3 className='fw-bolder m-0'>Course</h3>
-                            </div>
-                        </div>
 
                         <div className='row mb-6'>
                             <label className='col-lg-4 col-form-label required fw-bold fs-6'>Select Course
@@ -547,23 +477,98 @@ const AddMissionForm: React.FC = () => {
                         </div>
 
                         {/* ---------------------------COURSE END HERE ----------------------- */}
-                        {/* ---------------------------FOR OFFICE USE ONLY START HERE ----------------------- */}
-                        <div
-                            className='card-header border-0 cursor-pointer'
-                            role='button'
-                            data-bs-toggle='collapse'
-                            data-bs-target='#kt_account_profile_details'
-                            aria-expanded='true'
-                            aria-controls='kt_account_profile_details'
-                        >
-                            <div className='card-title m-0'>
-                                <h3 className='fw-bolder m-0'>For Office Use Only</h3>
+                        {/* ---------------------------Commision Start HERE ----------------------- */}
+
+
+                        {/* ---------------------------Commision End HERE ----------------------- */}
+
+                        <div className='row mb-6'>
+                            <label className='col-lg-4 col-form-label fw-bold fs-6'>
+                                <span className='required'>Name of Person for Commision</span>
+                            </label>
+
+                            <div className='col-lg-8 fv-row'>
+                                <input
+                                    type='text'
+                                    className='form-control form-control-lg form-control-solid'
+                                    placeholder='Name of Person For Commision'
+                                    {...formik.getFieldProps('name_of_person_for_commision')}
+                                />
+                                {formik.touched.name_of_person_for_commision && formik.errors.name_of_person_for_commision && (
+                                    <div className='fv-plugins-message-container'>
+                                        <div className='fv-help-block'>{formik.errors.name_of_person_for_commision}</div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        <div className='row mb-6'>
+                            <label className='col-lg-4 col-form-label fw-bold fs-6'>
+                                <span className='required'>Commision Com. Paid</span>
+                            </label>
+
+                            <div className='col-lg-8 fv-row'>
+                                <input
+                                    type='text'
+                                    className='form-control form-control-lg form-control-solid'
+                                    placeholder='Commision Com. Paid'
+                                    {...formik.getFieldProps('commision_paid')}
+                                />
+                                {formik.touched.commision_paid && formik.errors.commision_paid && (
+                                    <div className='fv-plugins-message-container'>
+                                        <div className='fv-help-block'>{formik.errors.commision_paid}</div>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
                         <div className='row mb-6'>
                             <label className='col-lg-4 col-form-label fw-bold fs-6'>
+                                <span className='required'>Commision Date</span>
+                            </label>
+
+                            <div className='col-lg-8 fv-row'>
+                                <input
+                                    type='date'
+                                    className='form-control form-control-lg form-control-solid'
+                                    placeholder='Commision Date'
+                                    {...formik.getFieldProps('commision_date')}
+                                />
+                                {formik.touched.commision_date && formik.errors.commision_date && (
+                                    <div className='fv-plugins-message-container'>
+                                        <div className='fv-help-block'>{formik.errors.commision_date}</div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className='row mb-6'>
+                            <label className='col-lg-4 col-form-label fw-bold fs-6'>
+                                <span className='required'>Commision Voucher No</span>
+                            </label>
+
+                            <div className='col-lg-8 fv-row'>
+                                <input
+                                    type='text'
+                                    className='form-control form-control-lg form-control-solid'
+                                    placeholder='Commision Voucher No'
+                                    {...formik.getFieldProps('commision_voucher_number')}
+                                />
+                                {formik.touched.commision_voucher_number && formik.errors.commision_voucher_number && (
+                                    <div className='fv-plugins-message-container'>
+                                        <div className='fv-help-block'>{formik.errors.commision_voucher_number}</div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+
+
+                        {/* ---------------------------FOR OFFICE USE ONLY START HERE ----------------------- */}
+
+                        <div className='row mb-6'>
+                            <label className='col-lg-4 col-form-label fw-bold fs-6'>
                                 <span className='required'>Course Fees</span>
+                                <p>(including 14% service Tax)</p>
                             </label>
 
                             <div className='col-lg-8 fv-row'>
@@ -599,6 +604,29 @@ const AddMissionForm: React.FC = () => {
                                 )}
                             </div>
                         </div>
+
+                        {/*=================================== Down Payement start ======================= */}
+                        <div className='row mb-6'>
+                            <label className='col-lg-4 col-form-label fw-bold fs-6'>
+                                <span className='required'>Down Payment</span>
+                            </label>
+
+                            <div className='col-lg-8 fv-row'>
+                                <input
+                                    type='text'
+                                    className='form-control form-control-lg form-control-solid'
+                                    placeholder='Down Payment.'
+                                    {...formik.getFieldProps('down_payment')}
+                                />
+                                {formik.touched.down_payment && formik.errors.down_payment && (
+                                    <div className='fv-plugins-message-container'>
+                                        <div className='fv-help-block'>{formik.errors.down_payment}</div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        {/*=================================== Down Payement end ======================= */}
+
                         <div className='row mb-6'>
                             <label className='col-lg-4 col-form-label fw-bold fs-6'>
                                 <span className='required'>D.O.J</span>
@@ -702,8 +730,6 @@ const AddMissionForm: React.FC = () => {
 
 
                         {/* ---------------------------FOR OFFICE USE ONLY END HERE ----------------------- */}
-
-
                     </div>
 
                     <div className='card-footer d-flex justify-content-end py-6 px-9'>
@@ -715,7 +741,6 @@ const AddMissionForm: React.FC = () => {
                                     <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
                                 </span>
                             )}
-
                         </button>
                     </div>
                 </form>
