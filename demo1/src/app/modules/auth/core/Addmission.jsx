@@ -16,7 +16,7 @@ export const AdmissionContextProvider = ({children}) => {
   }
 
   const studentsLists = useQuery({
-    queryKey: ['AddStudent'],
+    queryKey: ['getStudents'],
     queryFn: async () => {
       try {
         const response = await axios.get('http://localhost:8080/api/students', config)
@@ -28,36 +28,65 @@ export const AdmissionContextProvider = ({children}) => {
   })
 
   //console.log(studentsLists)
-  const {mutate, isLoading, isSuccess, isError, error} = useMutation({
+  const createStudentMutation = useMutation({
     mutationFn: async (newAdmission) => {
       return axios
         .post('http://localhost:8080/api/addmission_form', newAdmission, config)
         .then((res) => res.data)
     },
-    onError: (err) => {
-      alert('Addmission already done with this email')
-      console.error('Error creating admission form:', err)
+    onMutate: () => {
+      console.log('mutate')
     },
+
+    onError: () => {
+      console.log('error')
+    },
+
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['AddStudent']})
-      alert('Addmission done successfully!')
+      alert('Addmission done success 😊')
+      console.log('success')
+    },
+
+    onSettled: async (_, error) => {
+      console.log('settled')
+      if (error) {
+        console.log(error)
+        alert(
+          'Something went wrong I think with your email admission done please try another email address then it will work 😊😊'
+        )
+      } else {
+        await queryClient.invalidateQueries({queryKey: ['getStudents']})
+      }
     },
   })
 
-  const updateUser = (student, studentId) => {
-    
-  }
+  // delete student
+  const deleteStudentMutation = useMutation({
+    mutationFn: (id) => {
+      return axios
+        .delete(`http://localhost:8080/api/students/${id}`, config)
+        .then((res) => res.data)
+    },
+    onSuccess: () => {
+      alert('Student deleted successfully')
+    },
+    onSettled: async (_, error) => {
+      if (error) {
+        alert(error)
+      } else {
+        await queryClient.invalidateQueries({queryKey: ['getStudents']})
+      }
+    },
+  })
 
   return (
     <AdmissionContext.Provider
       value={{
         admissionFormData,
         setAdmissionFormData,
-        mutate,
-        isLoading,
-        isSuccess,
-        isError,
+        createStudentMutation,
         studentsLists,
+        deleteStudentMutation,
       }}
     >
       {children}

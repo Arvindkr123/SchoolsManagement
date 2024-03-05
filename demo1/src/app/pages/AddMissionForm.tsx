@@ -58,9 +58,9 @@ const AddMissionForm: React.FC = () => {
         onSubmit: async (values) => {
             setLoading(true)
             if (updateUserId) {
-                
+
             } else {
-                context.mutate(values)
+                context.createStudentMutation.mutate(values)
             }
             navigate("/students")
             // console.log(values);
@@ -87,40 +87,38 @@ const AddMissionForm: React.FC = () => {
             <div id='kt_account_profile_details' className='collapse show'>
                 <form onSubmit={formik.handleSubmit} noValidate className='form'>
                     <div className='card-body border-top p-9'>
-
+                        {/* ============================= Start Name here ======================== */}
                         <div className='row mb-6'>
                             <label className='col-lg-4 col-form-label required fw-bold fs-6'>Name</label>
-
-                            <div className='col-lg-8'>
-                                <div className='row'>
-                                    <div className='col-lg-6 fv-row'>
-                                        <input
-                                            type='text'
-                                            className='form-control form-control-lg form-control-solid mb-3 mb-lg-0'
-                                            placeholder='Name'
-                                            {...formik.getFieldProps('name')}
-                                        />
-                                        {formik.touched.name && formik.errors.name && (
-                                            <div className='fv-plugins-message-container'>
-                                                <div className='fv-help-block'>{formik.errors?.name}</div>
-                                            </div>
-                                        )}
+                            <div className='col-lg-6 fv-row'>
+                                <input
+                                    type='text'
+                                    className='form-control form-control-lg form-control-solid mb-3 mb-lg-0'
+                                    placeholder='Name'
+                                    {...formik.getFieldProps('name')}
+                                />
+                                {formik.touched.name && formik.errors.name && (
+                                    <div className='fv-plugins-message-container'>
+                                        <div className='fv-help-block'>{formik.errors?.name}</div>
                                     </div>
-
-                                    <div className='col-lg-6 fv-row'>
-                                        <input
-                                            type='text'
-                                            className='form-control form-control-lg form-control-solid'
-                                            placeholder='Father Name'
-                                            {...formik.getFieldProps('father_name')}
-                                        />
-                                        {formik.touched.father_name && formik.errors.father_name && (
-                                            <div className='fv-plugins-message-container'>
-                                                <div className='fv-help-block'>{formik.errors.father_name}</div>
-                                            </div>
-                                        )}
+                                )}
+                            </div>
+                        </div>
+                        {/*======================== Start Father Name ===========================*/}
+                        <div className='row mb-6'>
+                            <label className='col-lg-4 col-form-label required fw-bold fs-6'>Father Name</label>
+                            <div className='col-lg-6 fv-row'>
+                                <input
+                                    type='text'
+                                    className='form-control form-control-lg form-control-solid'
+                                    placeholder='Father Name'
+                                    {...formik.getFieldProps('father_name')}
+                                />
+                                {formik.touched.father_name && formik.errors.father_name && (
+                                    <div className='fv-plugins-message-container'>
+                                        <div className='fv-help-block'>{formik.errors.father_name}</div>
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </div>
 
@@ -750,9 +748,9 @@ const AddMissionForm: React.FC = () => {
                     </div>
 
                     <div className='card-footer d-flex justify-content-end py-6 px-9'>
-                        <button type='submit' className='btn btn-primary' disabled={context.isLoading}>
-                            {!context.isLoading && (updateUserId ? 'Edit' : 'Submit')}
-                            {context.loading && (
+                        <button type='submit' className='btn btn-primary' disabled={context.createStudentMutation.isLoading}>
+                            {!context.createStudentMutation.isLoading && (updateUserId ? 'Edit' : 'Submit')}
+                            {context.createStudentMutation.loading && (
                                 <span className='indicator-progress' style={{ display: 'block' }}>
                                     Please wait...{' '}
                                     <span className='spinner-border spinner-border-sm align-middle ms-2'></span>

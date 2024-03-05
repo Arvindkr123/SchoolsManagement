@@ -74,7 +74,7 @@ const StudentsList: React.FC<Props> = ({ className }) => {
                   <tr key={student._id}>
                     <td>
                       <div className='form-check form-check-sm form-check-custom form-check-solid'>
-                        <input className='form-check-input widget-9-check' type='checkbox' value='1' />
+                        {/* <input className='form-check-input widget-9-check' type='checkbox' value='1' /> */}
                       </div>
                     </td>
                     <td>
@@ -115,12 +115,12 @@ const StudentsList: React.FC<Props> = ({ className }) => {
                         >
                           <KTIcon iconName='pencil' className='fs-3' />
                         </button>
-                        <Link
-                          to='#'
+                        <button
+                          onClick={() => ctx.deleteStudentMutation.mutateAsync(student._id)}
                           className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'
                         >
                           <KTIcon iconName='trash' className='fs-3' />
-                        </Link>
+                        </button>
                       </div>
                     </td>
                   </tr>
