@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
-import { AddMissionFormInterface, addMissionFormInitialValues as initialValues } from '../modules/accounts/components/settings/SettingsModel'
+import { AddMissionFormInterface, addMissionFormInitialValues as initialValues, updateMissionFormInterface } from '../modules/accounts/components/settings/SettingsModel'
 import { useAdmissionContext } from '../modules/auth/core/Addmission'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const addmissionFormSchema = Yup.object().shape({
+    _id: Yup.string(),
     name: Yup.string().required('Name is required!'),
     father_name: Yup.string().required('Father Name is required!'),
     mobile_number: Yup.string().required('Mobile Number is required!'),
@@ -40,34 +41,30 @@ const addmissionFormSchema = Yup.object().shape({
 
 const AddMissionForm: React.FC = () => {
     const location = useLocation();
-    // console.log(location);
 
     const [updateUserId, setUpdateUserId] = useState<any>(location.state);
-    // console.log(updateUserId)
+    //console.log(updateUserId)
+    let updateStudentId = updateUserId?._id;
+
+    let updateStudentInitialValues: AddMissionFormInterface = updateUserId ? updateUserId : initialValues;
+    //console.log(updateStudentInitialValues);
 
 
-    // console.log(location.state)
-    const [loading, setLoading] = useState(false);
-    //console.log(updateData)
     const navigate = useNavigate();
     const context = useAdmissionContext()
-
     const formik = useFormik<AddMissionFormInterface>({
-        initialValues,
+        initialValues: updateStudentInitialValues,
         validationSchema: addmissionFormSchema,
         onSubmit: async (values) => {
-            setLoading(true)
             if (updateUserId) {
-
+                context.updateStudentMutation.mutate(values)
             } else {
                 context.createStudentMutation.mutate(values)
             }
             navigate("/students")
-            // console.log(values);
-            setLoading(false)
-            // mutation.mutate(values)
         },
     })
+
 
     return (
         <div className='card mb-5 mb-xl-10'>
@@ -80,7 +77,7 @@ const AddMissionForm: React.FC = () => {
                 aria-controls='kt_account_profile_details'
             >
                 <div className='card-title m-0'>
-                    <h3 className='fw-bolder m-0'>Student Information</h3>
+                    <h3 className='fw-bolder m-0'>{updateUserId ? "Edit Student Information" : "Student Information"}</h3>
                 </div>
             </div>
 

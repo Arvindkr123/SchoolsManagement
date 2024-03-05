@@ -17,77 +17,117 @@ export interface IProfileDetails {
 }
 
 export interface AddMissionFormInterface {
-  name: string,
-  father_name: string,
-  mobile_number: string,
-  phone_number: string,
-  present_address: string,
-  permanent_address: string,
-  date_of_birth: Date,
-  city: string,
-  email: string,
-  student_status: string,
+  _id?: string
+  name: string
+  father_name: string
+  mobile_number: string
+  phone_number: string
+  present_address: string
+  permanent_address: string
+  date_of_birth: Date
+  city: string
+  email: string
+  student_status: string
   // Qualification
-  education_qualification: string,
-  professional_qualification: string,
+  education_qualification: string
+  professional_qualification: string
   // course
-  select_course: string,
-  document_attached: string,
-  select_software: string,
+  select_course: string
+  document_attached: string
+  select_software: string
   // commision
-  name_of_person_for_commision: string,
-  commision_paid: string,
-  commision_date: string,
-  commision_voucher_number: string,
+  name_of_person_for_commision: string
+  commision_paid: string
+  commision_date: string
+  commision_voucher_number: string
   // for office use only
-  course_fees: string | number,
-  register_fee: string | number,
-  down_payment: string | number,
-  date_of_joining: string | Date,
-  slot_time: string | Date,
-  recipt_no: string | number,
-  no_of_installments:string|number,
-  date:string|Date
+  course_fees: string | number
+  register_fee: string | number
+  down_payment: string | number
+  date_of_joining: string | Date
+  slot_time: string | Date
+  recipt_no: string | number
+  no_of_installments: string | number
+  date: string | Date
+  createdAt?: string | Date
+  updatedAt?: string | Date
+  __v?: string | number
+}
+
+export interface updateMissionFormInterface {
+  _id: string | undefined
+  name: string
+  father_name: string
+  mobile_number: string
+  phone_number: string
+  present_address: string
+  permanent_address: string
+  date_of_birth: Date
+  city: string
+  email: string
+  student_status: string
+  // Qualification
+  education_qualification: string
+  professional_qualification: string
+  // course
+  select_course: string
+  document_attached: string
+  select_software: string
+  // commision
+  name_of_person_for_commision: string
+  commision_paid: string
+  commision_date: string
+  commision_voucher_number: string
+  // for office use only
+  course_fees: string | number
+  register_fee: string | number
+  down_payment: string | number
+  date_of_joining: string | Date
+  slot_time: string | Date
+  recipt_no: string | number
+  no_of_installments: string | number
+  date: string | Date
 }
 
 export const addMissionFormInitialValues: AddMissionFormInterface = {
-  name: "Rahul",
-  father_name: "Shadhu sunh",
-  mobile_number: "",
-  phone_number: "",
-  present_address: "",
-  permanent_address: "",
+  name: '',
+  father_name: '',
+  mobile_number: '',
+  phone_number: '',
+  present_address: '',
+  permanent_address: '',
   date_of_birth: new Date(),
-  city: "",
-  email: "",
-  student_status: "",
-  education_qualification: "",
-  professional_qualification: "",
-  select_course: "",
-  document_attached: "",
-  select_software: "",
-  name_of_person_for_commision: "",
-  commision_paid: "",
-  commision_date: "",
-  commision_voucher_number: "",
-  course_fees: "",
-  register_fee: "",
-  down_payment: "",
-  date_of_joining: "",
-  slot_time: "",
-  recipt_no: "",
-  no_of_installments: "",
+  city: '',
+  email: '',
+  student_status: '',
+  education_qualification: '',
+  professional_qualification: '',
+  select_course: '',
+  document_attached: '',
+  select_software: '',
+  name_of_person_for_commision: '',
+  commision_paid: '',
+  commision_date: '',
+  commision_voucher_number: '',
+  course_fees: '',
+  register_fee: '',
+  down_payment: '',
+  date_of_joining: '',
+  slot_time: '',
+  recipt_no: '',
+  no_of_installments: '',
   date: new Date(),
-};
-
-
+  createdAt: '',
+  updatedAt: '',
+  __v: 0,
+}
 
 export interface addUser {
-  fName: string,
-  lName: string,
-  email: string,
-  phone: string,
-  role: string,
+  fName: string
+  lName: string
+  email: string
+  phone: string
+  role: string
   password: string
 }
 export const addUserInitialValues: addUser = {
@@ -96,7 +136,7 @@ export const addUserInitialValues: addUser = {
   email: 'example@gmail.com',
   phone: '+91 1235689',
   role: 'Admin',
-  password: '234572dsjn'
+  password: '234572dsjn',
 }
 
 export interface IUpdateEmail {

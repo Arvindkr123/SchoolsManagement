@@ -11,6 +11,7 @@ export const getAllStudentsController = asyncHandler(async (req, res, next) => {
 });
 
 export const updateStudentController = asyncHandler(async (req, res, next) => {
+  console.log(req.params.id, req.body);
   try {
     const student = await admissionFormModel.findOne({ _id: req.params.id });
     if (!student) {

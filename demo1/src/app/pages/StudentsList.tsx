@@ -1,5 +1,5 @@
 import React from 'react'
-import { KTIcon, toAbsoluteUrl } from '../../_metronic/helpers'
+import { KTIcon } from '../../_metronic/helpers'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAdmissionContext } from '../modules/auth/core/Addmission'
 

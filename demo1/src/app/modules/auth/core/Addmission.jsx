@@ -79,6 +79,23 @@ export const AdmissionContextProvider = ({children}) => {
     },
   })
 
+  // update Student
+  const updateStudentMutation = useMutation({
+    mutationFn: async (updateStudent) => {
+      console.log(updateStudent)
+      return axios
+        .put(`http://localhost:8080/api/students/${updateStudent._id}`, updateStudent, config) // Corrected order of arguments
+        .then((res) => res.data)
+    },
+    onSettled: async (_, error) => {
+      if (error) {
+        alert('Error while updating student...', error)
+      } else {
+        await queryClient.invalidateQueries({queryKey: ['getStudents']})
+      }
+    },
+  })
+
   return (
     <AdmissionContext.Provider
       value={{
@@ -87,6 +104,7 @@ export const AdmissionContextProvider = ({children}) => {
         createStudentMutation,
         studentsLists,
         deleteStudentMutation,
+        updateStudentMutation,
       }}
     >
       {children}
