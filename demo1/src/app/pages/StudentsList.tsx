@@ -1,6 +1,6 @@
 import React from 'react'
 import { KTIcon, toAbsoluteUrl } from '../../_metronic/helpers'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAdmissionContext } from '../modules/auth/core/Addmission'
 
 type Props = {
@@ -9,7 +9,9 @@ type Props = {
 
 const StudentsList: React.FC<Props> = ({ className }) => {
   const ctx = useAdmissionContext();
-  console.log(ctx.studentsLists.data.users)
+  const navigate = useNavigate();
+  // console.log(ctx.studentsLists.data.users)
+  // console.log(new Date(ctx.studentsLists.data.users[0].commision_date).toLocaleDateString())
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
@@ -25,15 +27,16 @@ const StudentsList: React.FC<Props> = ({ className }) => {
           data-bs-trigger='hover'
           title='Click to add a user'
         >
-          <Link
-            to='#'
+          <button
+
             className='btn btn-sm btn-light-primary'
+            onClick={() => navigate("/addmission-form")}
           // data-bs-toggle='modal'
           // data-bs-target='#kt_modal_invite_friends'
           >
             <KTIcon iconName='plus' className='fs-3' />
             Add New Student
-          </Link>
+          </button>
         </div>
       </div>
       {/* end::Header */}
@@ -47,7 +50,7 @@ const StudentsList: React.FC<Props> = ({ className }) => {
             <thead>
               <tr className='fw-bold text-muted'>
                 <th className='w-25px'>
-                  <div className='form-check form-check-sm form-check-custom form-check-solid'>
+                  {/* <div className='form-check form-check-sm form-check-custom form-check-solid'>
                     <input
                       className='form-check-input'
                       type='checkbox'
@@ -55,11 +58,11 @@ const StudentsList: React.FC<Props> = ({ className }) => {
                       data-kt-check='true'
                       data-kt-check-target='.widget-9-check'
                     />
-                  </div>
+                  </div> */}
                 </th>
                 <th className='min-w-150px'>Name</th>
-                <th className='min-w-140px'>Father Name</th>
-                <th className='min-w-120px'>Email</th>
+                <th className='min-w-140px'>Mobile Number</th>
+                <th className='min-w-120px'>D.O.J</th>
                 <th className='min-w-100px text-end'>Actions</th>
               </tr>
             </thead>
@@ -76,49 +79,42 @@ const StudentsList: React.FC<Props> = ({ className }) => {
                     </td>
                     <td>
                       <div className='d-flex align-items-center'>
-                        <div className='symbol symbol-45px me-5'>
+                        {/* <div className='symbol symbol-45px me-5'>
                           <img src={toAbsoluteUrl('/media/avatars/300-14.jpg')} alt='' />
-                        </div>
+                        </div> */}
                         <div className='d-flex justify-content-start flex-column'>
                           <Link to='#' className='text-dark fw-bold text-hover-primary fs-6'>
-                            Ana Simmons
+                            {student.name}
                           </Link>
                           <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                            HTML, JS, ReactJS
+                            {student.select_course}
                           </span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <Link to='#' className='text-dark fw-bold text-hover-primary d-block fs-6'>
-                        Intertico
+                        +91 {student.mobile_number}
                       </Link>
                       <span className='text-muted fw-semibold text-muted d-block fs-7'>
-                        Web, UI/UX Design
+                        {student.email}
                       </span>
                     </td>
                     <td className='text-end'>
                       <div className='d-flex flex-column w-100 me-2'>
                         <div className='d-flex flex-stack mb-2'>
-                          <span className='text-muted me-2 fs-7 fw-semibold'>50%</span>
-                        </div>
-                        <div className='progress h-6px w-100'>
-                          <div
-                            className='progress-bar bg-primary'
-                            role='progressbar'
-                            style={{ width: '50%' }}
-                          ></div>
+                          <span className='text-muted me-2 fs-7 fw-semibold'>{new Date(student.date_of_joining).toLocaleDateString()}</span>
                         </div>
                       </div>
                     </td>
                     <td>
                       <div className='d-flex justify-content-end flex-shrink-0'>
-                        <Link
-                          to='#'
+                        <button
+                          onClick={() => navigate("/addmission-form", { state: student })}
                           className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1'
                         >
                           <KTIcon iconName='pencil' className='fs-3' />
-                        </Link>
+                        </button>
                         <Link
                           to='#'
                           className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm'

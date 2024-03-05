@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { AddMissionFormInterface, addMissionFormInitialValues as initialValues } from '../modules/accounts/components/settings/SettingsModel'
 import { useAdmissionContext } from '../modules/auth/core/Addmission'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const addmissionFormSchema = Yup.object().shape({
     name: Yup.string().required('Name is required!'),
@@ -38,14 +39,30 @@ const addmissionFormSchema = Yup.object().shape({
 
 
 const AddMissionForm: React.FC = () => {
+    const location = useLocation();
+    // console.log(location);
+
+    const [updateUserId, setUpdateUserId] = useState<any>(location.state);
+    // console.log(updateUserId)
+
+
+    // console.log(location.state)
     const [loading, setLoading] = useState(false);
+    //console.log(updateData)
+    const navigate = useNavigate();
     const context = useAdmissionContext()
+
     const formik = useFormik<AddMissionFormInterface>({
         initialValues,
         validationSchema: addmissionFormSchema,
         onSubmit: async (values) => {
             setLoading(true)
-            context.mutate(values)
+            if (updateUserId) {
+                
+            } else {
+                context.mutate(values)
+            }
+            navigate("/students")
             // console.log(values);
             setLoading(false)
             // mutation.mutate(values)
@@ -734,7 +751,7 @@ const AddMissionForm: React.FC = () => {
 
                     <div className='card-footer d-flex justify-content-end py-6 px-9'>
                         <button type='submit' className='btn btn-primary' disabled={context.isLoading}>
-                            {!context.isLoading && 'Submit'}
+                            {!context.isLoading && (updateUserId ? 'Edit' : 'Submit')}
                             {context.loading && (
                                 <span className='indicator-progress' style={{ display: 'block' }}>
                                     Please wait...{' '}

@@ -44,6 +44,10 @@ export const AdmissionContextProvider = ({children}) => {
     },
   })
 
+  const updateUser = (student, studentId) => {
+    
+  }
+
   return (
     <AdmissionContext.Provider
       value={{

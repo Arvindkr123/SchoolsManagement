@@ -14,6 +14,8 @@ const UsersTable = () => {
   // console.log("from table ->>>", users);
   const isLoading = useQueryResponseLoading()
   const data = useMemo(() => users, [users])
+  // console.log(data);
+
   const columns = useMemo(() => usersColumns, [])
   // console.log(data);
 

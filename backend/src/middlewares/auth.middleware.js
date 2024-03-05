@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken";
-import asyncHandler from "./asyncHandler.js";
 import { userModel } from "../models/user.models.js";
 import { JWT_SECRET } from "../config/config.js";
-
 
 //Protected Routes token base
 export const requireSignIn = async (req, res, next) => {
@@ -23,7 +21,7 @@ export const requireSignIn = async (req, res, next) => {
 export const isAdmin = async (req, res, next) => {
   try {
     const user = await userModel.findById(req.user._id);
-    if (user.role === "Admin" || user.role === 'SuperAdmin') {
+    if (user.role === "Admin" || user.role === "SuperAdmin") {
       next();
     } else {
       return res.status(401).send({
