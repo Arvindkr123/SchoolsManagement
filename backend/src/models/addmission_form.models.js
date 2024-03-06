@@ -83,10 +83,6 @@ const admissionFormSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    register_fee: {
-      type: String,
-      required: true,
-    },
     down_payment: {
       type: String,
       required: true,
@@ -95,21 +91,10 @@ const admissionFormSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    slot_time: {
-      type: String,
-      required: true,
-    },
-    recipt_no: {
-      type: Number,
-      required: true,
-    },
+
     no_of_installments: {
       type: Number,
       required: true,
-    },
-    date: {
-      type: Date,
-      default: Date.now,
     },
   },
   {

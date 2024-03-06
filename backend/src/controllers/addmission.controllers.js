@@ -24,13 +24,9 @@ export const createAddMissionController = asyncHandler(
       commision_date,
       commision_voucher_number,
       course_fees,
-      register_fee,
       down_payment,
       date_of_joining,
-      slot_time,
-      recipt_no,
       no_of_installments,
-      date,
     } = req.body;
     console.log(req.body);
     switch (true) {
@@ -114,10 +110,6 @@ export const createAddMissionController = asyncHandler(
         res.status(400);
         throw new Error("Please provide course fees field!");
         return;
-      case !register_fee:
-        res.status(400);
-        throw new Error("Please provide register fees field!");
-        return;
       case !down_payment:
         res.status(400);
         throw new Error("Please provide down payment field!");
@@ -126,21 +118,9 @@ export const createAddMissionController = asyncHandler(
         res.status(400);
         throw new Error("Please provide date of joining field!");
         return;
-      case !slot_time:
-        res.status(400);
-        throw new Error("Please provide slot time field!");
-        return;
-      case !recipt_no:
-        res.status(400);
-        throw new Error("Please provide recipt no field!");
-        return;
       case !no_of_installments:
         res.status(400);
         throw new Error("Please provide number of installements  field!");
-        return;
-      case !date:
-        res.status(400);
-        throw new Error("Please provide date  field!");
         return;
 
       default:
@@ -150,12 +130,10 @@ export const createAddMissionController = asyncHandler(
     const existedAddmission = await addMissionFormModel.findOne({ email });
 
     if (existedAddmission) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Admission already done with this email!",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Admission already done with this email!",
+      });
       // throw new Error("with this email addmission already done!");
     }
 

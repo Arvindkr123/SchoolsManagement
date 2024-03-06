@@ -39,13 +39,9 @@ export const updateStudentController = asyncHandler(async (req, res, next) => {
       commision_date,
       commision_voucher_number,
       course_fees,
-      register_fee,
       down_payment,
       date_of_joining,
-      slot_time,
-      receipt_no, // Corrected the variable name
       no_of_installments,
-      date,
     } = req.body;
 
     // Use || for conditional updates
@@ -73,14 +69,10 @@ export const updateStudentController = asyncHandler(async (req, res, next) => {
     student.commision_voucher_number =
       commision_voucher_number || student.commision_voucher_number;
     student.course_fees = course_fees || student.course_fees;
-    student.register_fee = register_fee || student.register_fee;
     student.down_payment = down_payment || student.down_payment;
     student.date_of_joining = date_of_joining || student.date_of_joining;
-    student.slot_time = slot_time || student.slot_time;
-    student.receipt_no = receipt_no || student.receipt_no;
     student.no_of_installments =
       no_of_installments || student.no_of_installments;
-    student.date = date || student.date;
 
     let updatedStudent = await student.save();
 

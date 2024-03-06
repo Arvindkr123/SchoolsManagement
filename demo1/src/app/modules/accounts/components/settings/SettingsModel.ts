@@ -42,13 +42,9 @@ export interface AddMissionFormInterface {
   commision_voucher_number: string
   // for office use only
   course_fees: string | number
-  register_fee: string | number
   down_payment: string | number
   date_of_joining: string | Date
-  slot_time: string | Date
-  recipt_no: string | number
   no_of_installments: string | number
-  date: string | Date
   createdAt?: string | Date
   updatedAt?: string | Date
   __v?: string | number
@@ -110,13 +106,9 @@ export const addMissionFormInitialValues: AddMissionFormInterface = {
   commision_date: '',
   commision_voucher_number: '',
   course_fees: '',
-  register_fee: '',
   down_payment: '',
   date_of_joining: '',
-  slot_time: '',
-  recipt_no: '',
   no_of_installments: '',
-  date: new Date(),
   createdAt: '',
   updatedAt: '',
   __v: 0,
