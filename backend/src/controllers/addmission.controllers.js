@@ -1,9 +1,10 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import addMissionFormModel from "../models/addmission_form.models.js";
-
+import fs from "fs";
 export const createAddMissionController = asyncHandler(
   async (req, res, next) => {
     const {
+      rollNumber,
       name,
       father_name,
       mobile_number,
@@ -27,9 +28,14 @@ export const createAddMissionController = asyncHandler(
       down_payment,
       date_of_joining,
       no_of_installments,
-    } = req.body;
+    } = req.fields;
+    const { avatar } = req.files;
     console.log(req.body);
     switch (true) {
+      case !rollNumber:
+        res.status(400);
+        throw new Error("Please provide Roll Number field!");
+        return;
       case !name:
         res.status(400);
         throw new Error("Please provide name field!");
@@ -122,6 +128,10 @@ export const createAddMissionController = asyncHandler(
         res.status(400);
         throw new Error("Please provide number of installements  field!");
         return;
+      case avatar && avatar.size > 1000000:
+        return res
+          .status(500)
+          .send({ error: "avatar is Required and should be less then 1mb" });
 
       default:
         break;
@@ -137,8 +147,12 @@ export const createAddMissionController = asyncHandler(
       // throw new Error("with this email addmission already done!");
     }
 
-    let newAddmission = await addMissionFormModel.create(req.body);
-
+    let newAddmission = await addMissionFormModel.create(req.fields);
+    if (avatar) {
+      newAddmission.avatar.data = fs.readFileSync(avatar.path);
+      newAddmission.avatar.contentType = avatar.type;
+    }
+    await newAddmission.save();
     res
       .status(200)
       .json({ success: true, message: "Addmission done successfully!!" });
