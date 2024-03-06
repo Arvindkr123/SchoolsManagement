@@ -284,12 +284,6 @@ const AddMissionForm: React.FC = () => {
                   </label>
 
                   <div className='col-lg-8 fv-row'>
-                    {/* <input
-                      type='date'
-                      className='form-control form-control-lg form-control-solid'
-                      placeholder='DOB'
-                      {...formik.getFieldProps('permanent_address')}
-                    /> */}
                     <DatePicker
                       selected={formik.values.date_of_birth}
                       onChange={(date) => formik.setFieldValue('date_of_birth', date)}
@@ -333,6 +327,7 @@ const AddMissionForm: React.FC = () => {
 
             {/* -----------------QUALIFICATION START HERE ------------------ */}
             <div className='row'>
+              <h4 className='border border-1 p-4 bg-body-tertiary '>Qualification</h4>
               <div className='col-6'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label required fw-bold fs-6'>
@@ -435,6 +430,8 @@ const AddMissionForm: React.FC = () => {
 
             {/* ---------------------------COURSE START HERE ----------------------- */}
             <div className='row'>
+              <h4 className='border border-1 p-4 bg-body-tertiary '>Course</h4>
+
               <div className='col-6'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label required fw-bold fs-6'>
@@ -579,6 +576,8 @@ const AddMissionForm: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <h4 className='border border-1 p-4 bg-body-tertiary '>Commision</h4>
+
               <div className='col-6'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label fw-bold fs-6'>
@@ -638,13 +637,6 @@ const AddMissionForm: React.FC = () => {
                   </label>
 
                   <div className='col-lg-8 fv-row'>
-                    {/* <input
-                      type='date'
-                      className='form-control form-control-lg form-control-solid'
-                      placeholder='Commision Date'
-                      {...formik.getFieldProps('commision_date')}
-                    /> */}
-
                     <DatePicker
                       selected={formik.values.commision_date}
                       onChange={(date) => formik.setFieldValue('commision_date', date)}
@@ -687,6 +679,7 @@ const AddMissionForm: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <h4 className='border border-1 p-4 bg-body-tertiary '>For Office Use Only</h4>
               <div className='col-6'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label fw-bold fs-6'>
@@ -719,13 +712,6 @@ const AddMissionForm: React.FC = () => {
                   </label>
 
                   <div className='col-lg-8 fv-row'>
-                    {/* <input
-                      type='date'
-                      className='form-control form-control-lg form-control-solid'
-                      placeholder='D.O.J'
-                      {...formik.getFieldProps('date_of_joining')}
-                    /> */}
-
                     <DatePicker
                       selected={formik.values.date_of_joining}
                       onChange={(date) => formik.setFieldValue('date_of_joining', date)}
