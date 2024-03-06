@@ -11,7 +11,7 @@ export const AdmissionContextProvider = ({children}) => {
   const [admissionFormData, setAdmissionFormData] = useState([])
   let config = {
     headers: {
-      Authorization: `Bearer ${auth.api_token}`,
+      Authorization: `Bearer ${auth?.api_token}`,
     },
   }
 
