@@ -327,8 +327,19 @@ const AddMissionForm: React.FC = () => {
 
             {/* -----------------QUALIFICATION START HERE ------------------ */}
             <div className='row'>
-              <h4 className='border border-1 p-4 bg-body-tertiary '>Qualification</h4>
-              <div className='col-6'>
+              <div
+                className='card-header border-1 cursor-pointer'
+                role='button'
+                // data-bs-toggle='collapse'
+                // data-bs-target='#kt_account_profile_details'
+                aria-expanded='true'
+                aria-controls='kt_account_profile_details'
+              >
+                <div className='card-title m-0'>
+                  <h3 className='fw-bolder m-0'>Qualification</h3>
+                </div>
+              </div>
+              <div className='col-6 mt-5'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label required fw-bold fs-6'>
                     Education Qualification
@@ -355,7 +366,7 @@ const AddMissionForm: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className='col-6'>
+              <div className='col-6 mt-5'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label required fw-bold fs-6'>
                     Professional Qualification
@@ -430,9 +441,20 @@ const AddMissionForm: React.FC = () => {
 
             {/* ---------------------------COURSE START HERE ----------------------- */}
             <div className='row'>
-              <h4 className='border border-1 p-4 bg-body-tertiary '>Course</h4>
+              <div
+                className='card-header border-1 cursor-pointer'
+                role='button'
+                // data-bs-toggle='collapse'
+                // data-bs-target='#kt_account_profile_details'
+                aria-expanded='true'
+                aria-controls='kt_account_profile_details'
+              >
+                <div className='card-title m-0'>
+                  <h3 className='fw-bolder m-0'>Course</h3>
+                </div>
+              </div>
 
-              <div className='col-6'>
+              <div className='col-6 mt-5'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label required fw-bold fs-6'>
                     Select Course
@@ -497,7 +519,7 @@ const AddMissionForm: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className='col-6'>
+              <div className='col-6 mt-5'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label required fw-bold fs-6'>
                     Document Attached
@@ -576,9 +598,20 @@ const AddMissionForm: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <h4 className='border border-1 p-4 bg-body-tertiary '>Commision</h4>
+              <div
+                className='card-header border-1 cursor-pointer'
+                role='button'
+                // data-bs-toggle='collapse'
+                // data-bs-target='#kt_account_profile_details'
+                aria-expanded='true'
+                aria-controls='kt_account_profile_details'
+              >
+                <div className='card-title m-0'>
+                  <h3 className='fw-bolder m-0'>Commision</h3>
+                </div>
+              </div>
 
-              <div className='col-6'>
+              <div className='col-6 mt-5'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label fw-bold fs-6'>
                     <span className='required'>Name of Person for Commision</span>
@@ -679,8 +712,20 @@ const AddMissionForm: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <h4 className='border border-1 p-4 bg-body-tertiary '>For Office Use Only</h4>
-              <div className='col-6'>
+
+              <div
+                className='card-header border-1 cursor-pointer'
+                role='button'
+                // data-bs-toggle='collapse'
+                // data-bs-target='#kt_account_profile_details'
+                aria-expanded='true'
+                aria-controls='kt_account_profile_details'
+              >
+                <div className='card-title m-0'>
+                  <h3 className='fw-bolder m-0'>For Office Use Only</h3>
+                </div>
+              </div>
+              <div className='col-6 mt-5'>
                 <div className='row mb-6'>
                   <label className='col-lg-4 col-form-label fw-bold fs-6'>
                     <span className='required'>Course Fees</span>
