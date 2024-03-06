@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'
 import {
@@ -282,11 +284,18 @@ const AddMissionForm: React.FC = () => {
                   </label>
 
                   <div className='col-lg-8 fv-row'>
-                    <input
+                    {/* <input
                       type='date'
                       className='form-control form-control-lg form-control-solid'
                       placeholder='DOB'
                       {...formik.getFieldProps('permanent_address')}
+                    /> */}
+                    <DatePicker
+                      selected={formik.values.date_of_birth}
+                      onChange={(date) => formik.setFieldValue('date_of_birth', date)}
+                      dateFormat='dd/MM/yyyy'
+                      className='form-control form-control-lg form-control-solid'
+                      placeholderText='DD/MM/YYYY'
                     />
                     {formik.touched.date_of_birth && formik.errors.date_of_birth && (
                       <div className='fv-plugins-message-container'>
@@ -629,11 +638,19 @@ const AddMissionForm: React.FC = () => {
                   </label>
 
                   <div className='col-lg-8 fv-row'>
-                    <input
+                    {/* <input
                       type='date'
                       className='form-control form-control-lg form-control-solid'
                       placeholder='Commision Date'
                       {...formik.getFieldProps('commision_date')}
+                    /> */}
+
+                    <DatePicker
+                      selected={formik.values.commision_date}
+                      onChange={(date) => formik.setFieldValue('commision_date', date)}
+                      dateFormat='dd/MM/yyyy'
+                      className='form-control form-control-lg form-control-solid'
+                      placeholderText='DD/MM/YYYY'
                     />
                     {formik.touched.commision_date && formik.errors.commision_date && (
                       <div className='fv-plugins-message-container'>
@@ -702,12 +719,21 @@ const AddMissionForm: React.FC = () => {
                   </label>
 
                   <div className='col-lg-8 fv-row'>
-                    <input
+                    {/* <input
                       type='date'
                       className='form-control form-control-lg form-control-solid'
                       placeholder='D.O.J'
                       {...formik.getFieldProps('date_of_joining')}
+                    /> */}
+
+                    <DatePicker
+                      selected={formik.values.date_of_joining}
+                      onChange={(date) => formik.setFieldValue('date_of_joining', date)}
+                      dateFormat='dd/MM/yyyy'
+                      className='form-control form-control-lg form-control-solid'
+                      placeholderText='DD/MM/YYYY'
                     />
+
                     {formik.touched.date_of_joining && formik.errors.date_of_joining && (
                       <div className='fv-plugins-message-container'>
                         <div className='fv-help-block'>{formik.errors.date_of_joining}</div>
