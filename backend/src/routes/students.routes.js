@@ -5,6 +5,7 @@ import {
   updateStudentController,
   deleteStudentController,
 } from "../controllers/students.controllers.js";
+import upload from "../../multer-config/storageConfig.js";
 
 const router = Router();
 
@@ -12,7 +13,7 @@ const router = Router();
 router.route("/").get(requireSignIn, getAllStudentsController);
 router
   .route("/:id")
-  .put(requireSignIn, isAdmin, updateStudentController)
+  .put(requireSignIn, isAdmin, upload.single("image"), updateStudentController)
   .delete(requireSignIn, isAdmin, deleteStudentController);
 
 export default router;

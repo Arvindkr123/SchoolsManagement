@@ -30,6 +30,7 @@ export const AdmissionContextProvider = ({children}) => {
   //console.log(studentsLists)
   const createStudentMutation = useMutation({
     mutationFn: async (newAdmission) => {
+      console.log(newAdmission)
       return axios
         .post('http://localhost:8080/api/addmission_form', newAdmission, config)
         .then((res) => res.data)

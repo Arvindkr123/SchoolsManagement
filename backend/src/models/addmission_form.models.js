@@ -2,6 +2,14 @@ import mongoose from "mongoose";
 
 const admissionFormSchema = new mongoose.Schema(
   {
+    rollNumber: {
+      type: Number,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,

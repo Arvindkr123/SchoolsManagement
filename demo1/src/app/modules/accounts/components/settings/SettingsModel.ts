@@ -17,6 +17,8 @@ export interface IProfileDetails {
 }
 
 export interface AddMissionFormInterface {
+  rollNumber: number
+  image?: string
   _id?: string
   name: string
   father_name: string
@@ -86,6 +88,8 @@ export interface updateMissionFormInterface {
 }
 
 export const addMissionFormInitialValues: AddMissionFormInterface = {
+  rollNumber: 0,
+  image: '',
   name: '',
   father_name: '',
   mobile_number: '',

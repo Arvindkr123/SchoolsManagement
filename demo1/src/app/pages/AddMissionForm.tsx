@@ -9,8 +9,12 @@ import {
 } from '../modules/accounts/components/settings/SettingsModel'
 import {useAdmissionContext} from '../modules/auth/core/Addmission'
 import {useLocation, useNavigate} from 'react-router-dom'
+import {toAbsoluteUrl} from '../../_metronic/helpers'
+const BASE_URL_Image = 'http://localhost:8080/images'
 
 const addmissionFormSchema = Yup.object().shape({
+  rollNumber: Yup.number().required('Roll Number is required!'),
+  image: Yup.object(),
   _id: Yup.string(),
   name: Yup.string().required('Name is required!'),
   father_name: Yup.string().required('Father Name is required!'),
@@ -38,16 +42,33 @@ const addmissionFormSchema = Yup.object().shape({
 })
 
 const AddMissionForm: React.FC = () => {
+  const [preview, setPreview] = useState('')
+  const [image, setImage] = useState<File | null>(null)
+
   const location = useLocation()
+
+  const setProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      //console.log(e.target.files[0])
+      setImage(e.target.files[0])
+    }
+  }
 
   const [updateUserId, setUpdateUserId] = useState<any>(location.state)
   //console.log(updateUserId)
-  let updateStudentId = updateUserId?._id
+  // let updateStudentId = updateUserId?._id
 
   let updateStudentInitialValues: AddMissionFormInterface = updateUserId
     ? updateUserId
     : initialValues
-  //console.log(updateStudentInitialValues);
+
+  useEffect(() => {
+    if (image) {
+      // setPreview(URL.createObjectURL(image))
+      setPreview(URL.createObjectURL(image))
+      //console.log(image.name)
+    }
+  }, [image])
 
   const navigate = useNavigate()
   const context = useAdmissionContext()
@@ -55,11 +76,26 @@ const AddMissionForm: React.FC = () => {
     initialValues: updateStudentInitialValues,
     validationSchema: addmissionFormSchema,
     onSubmit: async (values) => {
-      if (updateUserId) {
-        context.updateStudentMutation.mutate(values)
-      } else {
-        context.createStudentMutation.mutate(values)
+      let formData = new FormData()
+
+      // Append each field of values to formData
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value as string) // Ensure value is a string, adjust if needed
+      })
+
+      // Append the image to formData
+      if (image) {
+        formData.append('image', image)
       }
+
+      //console.log(formData)
+
+      if (updateUserId) {
+        context.updateStudentMutation.mutate(formData)
+      } else {
+        context.createStudentMutation.mutate(formData)
+      }
+
       navigate('/students')
     },
   })
@@ -85,6 +121,66 @@ const AddMissionForm: React.FC = () => {
         <form onSubmit={formik.handleSubmit} noValidate className='form'>
           <div className='card-body border-top p-9'>
             {/* ============================= Start Name here ======================== */}
+            {/*========================== profile =================================== */}
+            <div className='d-flex justify-content-center'>
+              <div className='symbol symbol-100px symbol-lg-160px symbol-fixed position-relative'>
+                <img
+                  // src={preview ? preview : toAbsoluteUrl('/media/avatars/300-1.jpg')}
+                  src={BASE_URL_Image + `/${updateUserId?.image}`}
+                  alt='Metornic'
+                />
+                {/* {preview && (
+                  <div className='mt-2'>
+                    <img
+                      src={preview}
+                      alt='Preview'
+                      style={{maxWidth: '100%', maxHeight: '200px'}}
+                    />
+                  </div>
+                )} */}
+                <div className='position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px'></div>
+              </div>
+            </div>
+            <div className='row mt-5 '>
+              <div className='col-6'>
+                <div className='row mb-6'>
+                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>Image</label>
+                  <div className='col-lg-6 fv-row'>
+                    <input
+                      type='file'
+                      className='form-control form-control-lg form-control-solid mb-3 mb-lg-0'
+                      placeholder='Image'
+                      onChange={(e) => setProfile(e)}
+                    />
+                    {formik.touched.image && formik.errors.image && (
+                      <div className='fv-plugins-message-container'>
+                        <div className='fv-help-block'>{formik.errors?.image}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className='col-6'>
+                <div className='row mb-6'>
+                  <label className='col-lg-4 col-form-label required fw-bold fs-6'>
+                    Roll Number{' '}
+                  </label>
+                  <div className='col-lg-6 fv-row'>
+                    <input
+                      type='number'
+                      className='form-control form-control-lg form-control-solid mb-3 mb-lg-0'
+                      placeholder='Enter Roll Number..'
+                      {...formik.getFieldProps('rollNumber')}
+                    />
+                    {formik.touched.rollNumber && formik.errors.rollNumber && (
+                      <div className='fv-plugins-message-container'>
+                        <div className='fv-help-block'>{formik.errors?.rollNumber}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className='row'>
               {/* ================================------Name----================================== */}
               <div className='col-6'>

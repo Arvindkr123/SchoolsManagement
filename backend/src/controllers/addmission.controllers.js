@@ -4,6 +4,7 @@ import addMissionFormModel from "../models/addmission_form.models.js";
 export const createAddMissionController = asyncHandler(
   async (req, res, next) => {
     const {
+      rollNumber,
       name,
       father_name,
       mobile_number,
@@ -29,7 +30,17 @@ export const createAddMissionController = asyncHandler(
       no_of_installments,
     } = req.body;
     console.log(req.body);
+    console.log(req.file);
+    const file = req.file.filename;
     switch (true) {
+      case !rollNumber:
+        res.status(400);
+        throw new Error("Please provide roll Number field!");
+        return;
+      case !file:
+        res.status(400);
+        throw new Error("Please provide image field!");
+        return;
       case !name:
         res.status(400);
         throw new Error("Please provide name field!");
@@ -137,7 +148,10 @@ export const createAddMissionController = asyncHandler(
       // throw new Error("with this email addmission already done!");
     }
 
-    let newAddmission = await addMissionFormModel.create(req.body);
+    let newAddmission = await addMissionFormModel.create({
+      ...req.body,
+      image: file,
+    });
 
     res
       .status(200)

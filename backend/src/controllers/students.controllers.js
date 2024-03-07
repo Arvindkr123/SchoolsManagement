@@ -18,7 +18,9 @@ export const updateStudentController = asyncHandler(async (req, res, next) => {
       return; // Added return to exit the function if student is not found
     }
 
+    const file = req.file.filename;
     const {
+      rollNumber,
       name,
       father_name,
       mobile_number,
@@ -45,6 +47,7 @@ export const updateStudentController = asyncHandler(async (req, res, next) => {
     } = req.body;
 
     // Use || for conditional updates
+    student.rollNumber = rollNumber || student.rollNumber;
     student.name = name || student.name;
     student.father_name = father_name || student.father_name;
     student.mobile_number = mobile_number || student.mobile_number;
@@ -73,6 +76,7 @@ export const updateStudentController = asyncHandler(async (req, res, next) => {
     student.date_of_joining = date_of_joining || student.date_of_joining;
     student.no_of_installments =
       no_of_installments || student.no_of_installments;
+    student.image = file || student.image;
 
     let updatedStudent = await student.save();
 
