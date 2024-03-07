@@ -1,6 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import addMissionFormModel from "../models/addmission_form.models.js";
-
+import fs from "fs";
 export const createAddMissionController = asyncHandler(
   async (req, res, next) => {
     const {
@@ -28,18 +28,23 @@ export const createAddMissionController = asyncHandler(
       down_payment,
       date_of_joining,
       no_of_installments,
-    } = req.body;
+    } = req.fields;
+    const { avatar } = req.files;
     console.log(req.body);
     console.log(req.file);
     const file = req.file.filename;
     switch (true) {
       case !rollNumber:
         res.status(400);
+<<<<<<< HEAD
         throw new Error("Please provide roll Number field!");
         return;
       case !file:
         res.status(400);
         throw new Error("Please provide image field!");
+=======
+        throw new Error("Please provide Roll Number field!");
+>>>>>>> ce6b6de4f7dde856630c811fdc451ad8fdafe3e4
         return;
       case !name:
         res.status(400);
@@ -133,6 +138,10 @@ export const createAddMissionController = asyncHandler(
         res.status(400);
         throw new Error("Please provide number of installements  field!");
         return;
+      case avatar && avatar.size > 1000000:
+        return res
+          .status(500)
+          .send({ error: "avatar is Required and should be less then 1mb" });
 
       default:
         break;
@@ -148,11 +157,20 @@ export const createAddMissionController = asyncHandler(
       // throw new Error("with this email addmission already done!");
     }
 
+<<<<<<< HEAD
     let newAddmission = await addMissionFormModel.create({
       ...req.body,
       image: file,
     });
 
+=======
+    let newAddmission = await addMissionFormModel.create(req.fields);
+    if (avatar) {
+      newAddmission.avatar.data = fs.readFileSync(avatar.path);
+      newAddmission.avatar.contentType = avatar.type;
+    }
+    await newAddmission.save();
+>>>>>>> ce6b6de4f7dde856630c811fdc451ad8fdafe3e4
     res
       .status(200)
       .json({ success: true, message: "Addmission done successfully!!" });

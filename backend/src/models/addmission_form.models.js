@@ -6,9 +6,15 @@ const admissionFormSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+<<<<<<< HEAD
     image: {
       type: String,
       required: true,
+=======
+    avatar: {
+      data: Buffer,
+      contentType: String,
+>>>>>>> ce6b6de4f7dde856630c811fdc451ad8fdafe3e4
     },
     name: {
       type: String,
